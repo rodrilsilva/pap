@@ -1,0 +1,27 @@
+<div class="flex flex-row w-full gap-2 overflow-auto md:w-64 md:flex-col">
+    <x-btn-nav-definicoes
+        :href="route('definicoes.update')"
+        :active="request()->routeIs('definicoes.update')">
+        Definições
+    </x-btn-nav-definicoes>
+    <x-btn-nav-definicoes
+        :href="route('servicos.update')"
+        :active="request()->routeIs('servicos.update')">
+        Serviços
+    </x-btn-nav-definicoes>
+    <x-btn-nav-definicoes
+        :href="route('equipa.update')"
+        :active="request()->routeIs('equipa.update')">
+        Equipa
+    </x-btn-nav-definicoes>
+    <x-btn-nav-definicoes
+        :href="route('horario.update')"
+        :active="request()->routeIs('horario.update')">
+        Horário
+    </x-btn-nav-definicoes>
+    <x-btn-nav-definicoes
+        :href="route('notificacoes.update')"
+        :active="request()->routeIs('notificacoes.update')">
+        Notificações
+    </x-btn-nav-definicoes>
+</div>
