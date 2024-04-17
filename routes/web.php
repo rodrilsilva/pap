@@ -53,13 +53,20 @@ Route::get('/definicoes', [DefinicoesController::class, 'update'])->name('defini
 Route::post('/definicoes', [DefinicoesController::class, 'save'])->name('definicoes.save');
 
 /************* Rotas Servicos *************/
-Route::get('/definicoes/servicos', [ServicosController::class, 'update'])->name('servicos.update');
+Route::get('/definicoes/servicos', [ServicosController::class, 'index'])->name('servicos.index');
+Route::get('/definicoes/servicos/update', [ServicosController::class, 'update'])->name('servicos.update');
+Route::get('/definicoes/servicos/create', [ServicosController::class, 'create'])->name('servicos.create');
+Route::post('/definicoes/servicos/store', [ServicosController::class, 'store'])->name('servicos.store'); 
+
 
 /************* Rotas Horário *************/
 Route::get('/definicoes/horario', [HorarioController::class, 'update'])->name('horario.update');
 
 /************* Rotas Equipa *************/
-Route::get('/definicoes/equipa', [EquipaController::class, 'update'])->name('equipa.update');
+Route::get('/definicoes/equipa', [EquipaController::class, 'index'])->name('equipa.index');
+Route::get('/definicoes/equipa/update', [EquipaController::class, 'update'])->name('equipa.update');
+Route::post('/definicoes/equipa/store', [EquipaController::class, 'store'])->name('equipa.store');
+
 
 /************* Rotas Notificações *************/
 Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'update'])->name('notificacoes.update');

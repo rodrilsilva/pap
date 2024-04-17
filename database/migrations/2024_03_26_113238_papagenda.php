@@ -22,10 +22,10 @@ return new class extends Migration
             $table->id('id');
             $table->string('nome');
             $table->integer('gen');
-            $table->text('avatar');
-            $table->unsignedBigInteger('users_id');  
-            $table->foreign('users_id')->references('id')->on('users');      
-        
+            $table->text('avatar')->nullable();
+            $table->unsignedBigInteger('users_id')->nullable();  
+            $table->foreign('users_id')->references('id')->on('users')->nullable();   
+            $table->timestamps();   
         });
 
         Schema::create('cliente', function (Blueprint $table) {
@@ -52,8 +52,8 @@ return new class extends Migration
             $table->text('nome');
             $table->integer('duracao');
             $table->decimal('preco');
-            $table->string('icone');
             $table->string('cor');
+            $table->timestamps();
         });
 
         Schema::create('marcacao', function (Blueprint $table) {
@@ -127,6 +127,15 @@ return new class extends Migration
             $table->integer('telemovel')->nullable();
             $table->string('morada')->nullable();
         });
+
+        Schema::create('horarios', function (Blueprint $table) {
+            $table->id();
+            $table->time('hora_inicio_manha')->nullable();
+            $table->time('hora_fim_manha')->nullable();
+            $table->time('hora_inicio_tarde')->nullable();
+            $table->time('hora_fim_tarde')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -145,5 +154,6 @@ return new class extends Migration
         Schema::dropIfExists('colaborador');
         Schema::dropIfExists('config');
         Schema::dropIfExists('localidade');
+        Schema::dropIfExists('horarios');
     }
 };

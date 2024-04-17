@@ -5,8 +5,8 @@
         Definições
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes
-        :href="route('servicos.update')"
-        :active="request()->routeIs('servicos.update')">
+        :href="route('servicos.index')"
+        :active="request()->routeIs('servicos.index')">
         Serviços
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes

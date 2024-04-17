@@ -55,8 +55,13 @@
             <p class="text-zinc-500">Proximo Cliente</p>
             <div class="flex gap-2">
                 <x-application-logo />
-                <p class="font-medium text-zinc-900">{{ $proximaMarcacao->tipoServico->nome }}</p>
-            </div>
+                    @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->tipoServico->nome }}</p>
+                            @else
+                            <p class="font-medium text-zinc-900">Sem próximo serviço agendado.
+                        </p>
+                    @endif            
+                </div>
         </div>
         <div class="flex gap-2">
             
@@ -67,7 +72,12 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 text-zinc-900">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
                     </svg>
-                    <p class="text-lg text-zinc-900">{{ $proximaMarcacao->colaborador->nome }}</p> <!-- Ajuste conforme necessário -->
+                    @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->colaborador->nome }}</p>
+                            @else
+                            <p class="font-medium text-zinc-900">
+                        </p>
+                    @endif  
                 </div>
             </div>
             <div class="flex flex-col w-full gap-1.5">
@@ -77,7 +87,12 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 text-zinc-900">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
                     </svg>
-                    <p class="text-lg text-zinc-900">{{ $proximaMarcacao->cliente->nome }}</p>
+                    @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->cliente->nome }}</p>
+                            @else
+                            <p class="font-medium text-zinc-900">
+                        </p>
+                    @endif  
                 </div>
             </div>
         </div>
@@ -85,14 +100,24 @@
             <p class="text-zinc-500">Data e hora de marcação</p>
             <div class="flex gap-2">
                 <x-icons.calendario />
-                <p class="font-medium text-zinc-900">{{ $proximaMarcacao->data_hora }}</p>
+                @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->data_hora }}</p>
+                            @else
+                            <p class="font-medium text-zinc-900">
+                        </p>
+                    @endif  
             </div>
         </div>
         <div class="flex flex-col gap-1.5">
             <p class="text-zinc-500">Descrição</p>
             <div class="flex gap-2">
                 <x-icons.lapis />
-                <p class="font-medium truncate text-zinc-900">{{ $proximaMarcacao->obs }}</p> <!-- Ajuste conforme necessário -->
+                @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->obs }}</p>
+                            @else
+                            <p class="font-medium text-zinc-900">
+                        </p>
+                    @endif  
             </div>
         </div>
     </div>
