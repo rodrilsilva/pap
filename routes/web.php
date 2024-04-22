@@ -35,6 +35,9 @@ Route::get('/dashboard', function () {
 
 /******************** Rotas Agenda ********************/
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+Route::get('/events', [AgendaController::class, 'getEvents']);
+Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvent']);
+Route::put('/agenda/{id}', [AgendaController::class, 'update']);
 
 /******************** Rotas Clientes ********************/
 Route::middleware(['auth', 'admin'])->group(function () {
