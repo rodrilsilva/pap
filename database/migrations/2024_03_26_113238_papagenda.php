@@ -59,14 +59,15 @@ return new class extends Migration
         Schema::create('marcacao', function (Blueprint $table) {
             $table->id('id');
             $table->datetime('data_hora');
-            $table->unsignedTinyInteger('estado');
+            $table->unsignedTinyInteger('estado')->nullable();
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('cliente');
             $table->unsignedBigInteger('colaborador_id'); //adicionadas para teste
             $table->foreign('colaborador_id')->references('id')->on('colaborador'); //adicionadas para teste
             $table->unsignedBigInteger('tipo_servico_id'); //adicionadas para teste
             $table->foreign('tipo_servico_id')->references('id')->on('tipo_servico'); //adicionadas para teste
-            $table->text('obs');
+            $table->text('obs')->nullable();
+            $table->timestamps();
         });
 
         Schema::create('produto', function (Blueprint $table) {

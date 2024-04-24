@@ -13,13 +13,10 @@ class Marcacao extends Model
 {
     use HasFactory;
 
-    // Indicar nome da tabela
     protected $table = 'marcacao';
 
-    // Indicar as colunas que podem ser registadas
     protected $fillable = ['data_hora', 'cliente_id', 'colaborador_id', 'tipo_servico_id', 'obs'];
 
-    // Método para buscar a próxima marcação
     public static function proximaMarcacao()
     {
         return self::where('data_hora', '>', Carbon::now())

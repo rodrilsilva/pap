@@ -5,20 +5,10 @@
         </h2>
     </x-slot>
     <div class="m-auto max-w-7xl">
-        <div class="flex flex-col justify-between gap-4 md:flex-row">
-            <input type="date" class="border rounded-lg border-zinc-300">
-            <x-primary-button id="nova_marcacao" class="w-full md:w-min" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
-        </div>
+        <x-primary-button id="nova_marcacao" class="absolute w-full md:w-min left-80" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
+        <div id="calendar" class="w-full"></div>
     </div>
-
     <!-- FullCalendar -->
-    <div class="container z-10 mt-5">
-        <div class="card">
-            <div class="card-body">
-                <div id="calendar" style="width: 100%"></div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script><!-- Caso de erro dupli -->
@@ -115,28 +105,19 @@
             };
         });
     </script>
-    <style>     
-        #calendar {
-            margin: 0 auto;
-            max-width: 1100px;
-            width: 150%;
-        }
-    </style>
 </x-app-layout>
 
-{{-- Deixei o codigo da janela aqui  --}}
 <div class="absolute inset-0 z-50 hidden w-full h-screen p-4 bg-zinc-600/50 backdrop-blur-sm" id="janela">
     <div class="relative max-w-2xl p-6 -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2 border-neutral-200 rounded-2xl">
         <div class="flex justify-between">
             <h2 class="text-2xl font-medium text-violet-600">Nova Marcação</h2>
             <p id="nova_marcacao" class="text-xl font-bold cursor-pointer" onclick="mostrar_janela()">X</p>
         </div>
-        <form class="flex flex-col gap-4" method="" action="">
+        <form class="flex flex-col gap-4" method="POST" action="{{ route('agenda.store')}}">
             @csrf
             {{-- Header --}}
             <div class="pb-2 border-b">
                 <p class="text-zinc-500">Data</p>
-                {{-- Sacas a partir da base de dados e do que for colocado no input(em tempo real claro, se não conseguires, apaga da l. 22 à 26) --}}
                 <h6 class="text-lg">Terça-Feira, 26 setembro de 2023</h6>
             </div>
             {{-- Conteúdo --}}
@@ -144,46 +125,40 @@
                 <div class="flex flex-col w-full gap-2">
                     <div class="flex w-full gap-4">
                         <div class="flex flex-col w-full gap-1">
-                            <x-input-label for="dia_marcacao">Dia da marcação</x-input-label>
-                            <x-text-input type="date" id="dia_marcacao"/>
-                        </div>
-                    </div>
-                    <div class="flex w-full gap-4">
-                        <div class="flex flex-col w-full gap-1">
-                            <x-input-label for="duracao">Duração</x-input-label>
-                            <x-text-input type="time" id="duracao"/>
-                        </div>
-                        <div class="flex flex-col w-full gap-1">
-                            <x-input-label for="horario">Horário</x-input-label>
-                            <x-text-input type="time" id="horario"/>
+                            <x-input-label for="data_hora">Dia da marcação</x-input-label>
+                            <x-text-input type="datetime-local" id="data_hora" name="data_hora"/>
                         </div>
                     </div>
                     <div class="flex w-full gap-4">
                         <div class="flex flex-col w-full gap-1">
                             <x-input-label for="servico">Serviço</x-input-label>
-                            <x-select id="servico">
-                                <option value="">Serviço A</option>
-                                <option value="">Serviço B</option>
-                                <option value="">Serviço C</option>
-                                <option value="">Serviço D</option>
-                                <option value="">Serviço E</option>
-                                <option value="">Serviço F</option>
+                            <x-select name="servico_id" id="servico">
+                                <option value="">Selecione um serviço</option>
+                                @foreach($servicos as $servico)
+                                    <option value="{{ $servico->id }}">{{ $servico->nome }}</option>
+                                @endforeach
                             </x-select>
                         </div>
                     </div>
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="colaborador">Colaborador</x-input-label>
-                        <x-select id="colaborador">
-                            <option value="">Colaborador A</option>
-                            <option value="">Colaborador B</option>
+                        <x-select name="colaborador_id" id="colaborador">
+                            <option value="" disabled>Selecione um colaborador</option>
+                            @foreach($colaboradores as $colaborador)
+                                <option value="{{ $colaborador->id }}">{{ $colaborador->nome }}</option>
+                            @endforeach
                         </x-select>
                     </div>
+                    <div class="flex flex-col w-full gap-1">
+                        <x-input-label for="cliente">Cliente</x-input-label>
+                        <input type="hidden" name="cliente_id" id="cliente_id" value="" />
+                        <x-text-input id="cliente" type="text" placeholder="Nome do Cliente" />
+                    </div>
                 </div>
-                <div class="flex flex-col w-full gap-2">
+                {{-- <div class="flex flex-col w-full gap-2">
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="cliente">Cliente</x-input-label>
                         <x-text-input id="cliente" type="text" placeholder="Carla Lima" />
-                        
                     </div>
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="telemovel">Telemovel</x-input-label>
@@ -197,8 +172,8 @@
                         <x-input-label for="nif">NIF</x-input-label>
                         <x-text-input id="nif" type="email" placeholder="18426263" />
                     </div>
-                </div>
-            </div>
+                </div>--}}
+            </div> 
             {{-- Footer --}}
             <div class="flex gap-4 pt-4 border-t">
                 <x-secondary-button>Voltar</x-secondary-button>
@@ -213,4 +188,46 @@
 const mostrar_janela = () => {
     janela.classList.toggle("hidden");
 };
+</script>
+
+
+<script>
+    const clientes = {!! json_encode($clientes) !!}; // Converte os clientes do PHP para JavaScript
+    const inputCliente = document.getElementById('cliente');
+    const clienteIdInput = document.getElementById('cliente_id'); // Adicionado para armazenar o ID do cliente
+    const listaClientes = document.createElement('ul');
+    listaClientes.classList.add('hidden', 'absolute', 'z-60', 'w-auto', 'border', 'border-gray-300', 'bg-white', 'rounded-md', 'shadow-lg', 'overflow-y-auto', 'max-h-40', 'text-sm');
+
+    inputCliente.addEventListener('input', (event) => {
+        const termo = event.target.value.toLowerCase();
+        const clientesFiltrados = clientes.filter(cliente => cliente.nome.toLowerCase().includes(termo));
+
+        // Limpar lista anterior
+        listaClientes.innerHTML = '';
+
+        // Adicionar clientes filtrados à lista
+        clientesFiltrados.forEach(cliente => {
+            const item = document.createElement('li');
+            item.textContent = cliente.nome;
+            item.classList.add('px-3', 'py-1', 'hover:bg-gray-100', 'cursor-pointer');
+
+            item.addEventListener('click', () => {
+                inputCliente.value = cliente.nome;
+                clienteIdInput.value = cliente.id; // Armazena o ID do cliente
+                listaClientes.classList.add('hidden');
+            });
+
+            listaClientes.appendChild(item);
+        });
+
+        // Mostrar lista de clientes filtrados
+        if (clientesFiltrados.length > 0) {
+            listaClientes.classList.remove('hidden');
+        } else {
+            listaClientes.classList.add('hidden');
+        }
+    });
+
+    // Adicionar lista de clientes filtrados ao DOM
+    inputCliente.parentNode.appendChild(listaClientes);
 </script>

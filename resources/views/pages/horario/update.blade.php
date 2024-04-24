@@ -13,10 +13,11 @@
                 <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-4 md:flex-row">
                     <div class="flex flex-col w-full gap-1">
-                        <x-input-label for="inic_manha">Ínicio Manhã</x-input-label>
-                        {{-- Pegas através da base de ddos  --}}
-                        <x-text-input type="time" id="inic_manha" name="inic_manha" value=""/>
+                        <x-input-label for="hora_inicio_manha">Ínicio Manhã</x-input-label>
+                        {{-- Pegas através da base de dados --}}
+                        <x-text-input type="time" id="hora_inicio_manha" name="hora_inicio_manha" :value="$registro->hora_inicio_manha ?? null"/>
                     </div>
+                    
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="fim_manha">Fim Manhã</x-input-label>
                         {{-- Pegas através da base de ddos  --}}

@@ -10,7 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServicosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +31,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/events', [DashboardController::class, 'getEvents']);
 
 
 /******************** Rotas Agenda ********************/
@@ -38,6 +39,8 @@ Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 Route::get('/events', [AgendaController::class, 'getEvents']);
 Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvent']);
 Route::put('/agenda/{id}', [AgendaController::class, 'update']);
+Route::post('/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
+Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
 
 /******************** Rotas Clientes ********************/
 Route::middleware(['auth', 'admin'])->group(function () {

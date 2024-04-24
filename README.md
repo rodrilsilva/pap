@@ -70,3 +70,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 npm run dev
 
 Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index')->middleware('auth'); 1 opcao
+
+php artisan migrate:fresh --seed

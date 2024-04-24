@@ -35,15 +35,9 @@
                     <h4 class="text-4xl font-black">{{ $numeroMarcacoes }}</h4>
                 </div>
             </div>
-            {{-- TBD --}}
-            <div class="flex flex-col w-full col-span-2 row-span-2 gap-4 p-4 bg-white border border-gray-200 shadow-sm rounded-2xl">
-                <div class="flex items-center justify-center p-3 rounded-full bg-gradient-to-b from-purple-500 to-violet-600 w-min">
-                    <x-icons.marcacoes />
-                </div>
-                <div class="flex flex-col">
-                    <p class="text-zinc-500">ans</p>
-                    <h4 class="text-4xl font-black">ans</h4>
-                </div>
+            {{-- Calendario marcacoes --}}
+            <div class="flex flex-col w-full col-span-2 row-span-2 gap-4 p-4 bg-white border border-gray-200 shadow-sm h-1/2 rounded-2xl">
+                <div id="weeklyCalendar" class="w-full"></div>
             </div>
             {{-- TBD --}}
 <div class="flex flex-col w-full col-span-1 row-span-2 gap-4 p-4 mb-4 bg-white border border-gray-200 shadow-sm rounded-2xl md:mb-6 lg:mb-0">
@@ -107,6 +101,7 @@
                         </p>
                     @endif  
             </div>
+
         </div>
         <div class="flex flex-col gap-1.5">
             <p class="text-zinc-500">Descrição</p>
@@ -135,3 +130,38 @@
         </div>
     </div>
 --}}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script><!-- Caso de erro dupli -->
+                    
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var weeklyCalendarEl = document.getElementById('weeklyCalendar');
+
+        var weeklyCalendar = new FullCalendar.Calendar(weeklyCalendarEl, {
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'timeGridWeek'
+            },
+            initialView: 'timeGridWeek',
+            timeZone: 'GMT+1',
+            events: '/events',  // Ajuste a URL para retornar eventos semanais
+            editable: false,
+            slotDuration: '01:00:00',
+            slotLabelInterval: '01:00:00',
+            slotEventOverlap: false,
+            slotMinTime: '07:00:00',
+            slotMaxTime: '20:00:00',
+            slotLabelInterval: '01:00:00',
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }
+        });
+
+        weeklyCalendar.render();
+    });
+</script>

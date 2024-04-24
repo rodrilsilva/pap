@@ -12,7 +12,7 @@ class Cliente extends Model
 
     protected $table = 'cliente';
 
-    protected $fillable = ['nome', 'email', 'tlm', 'nif', 'observacoes', 'dh'];
+    protected $fillable = ['nome', 'email', 'tlm', 'nif', 'observacoes', 'dh', 'id'];
 
     // Relação um-para-muitos com as marcações
     public function marcacoes()
