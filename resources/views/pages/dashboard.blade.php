@@ -3,8 +3,7 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Dashboard') }}
         </h2>
-    </x-slot>
-    <div class="flex flex-col gap-6 m-auto lg:grid-rows-3 lg:grid-cols-3 lg:grid max-w-7xl">
+    </x-slot>    <div class="flex flex-col gap-6 m-auto lg:grid-rows-3 lg:grid-cols-3 lg:grid max-w-7xl">
             {{-- Dinheiro Faturado --}}
             <div class="flex flex-col w-full col-span-1 gap-4 p-4 bg-white border border-gray-200 shadow-sm rounded-xl">
                 <div class="flex items-center justify-center p-2.5 rounded-full bg-gradient-to-b from-purple-500 to-violet-600 w-min">
@@ -12,7 +11,7 @@
                 </div>
                 <div class="flex flex-col">
                     <p class="text-zinc-500 ">Dinheiro Faturado</p>
-                    <h4 class="text-4xl font-black">{{ $dinheiroFaturado }}</h4>
+                    <h4 class="text-4xl font-black">{{ $dinheiroFaturado}}</h4>
                 </div>
             </div>
             {{-- Clientes --}}
@@ -36,29 +35,28 @@
                 </div>
             </div>
             {{-- Calendario marcacoes --}}
-            <div class="flex flex-col w-full col-span-2 row-span-2 gap-4 p-4 bg-white border border-gray-200 shadow-sm h-1/2 rounded-2xl">
-                <div id="weeklyCalendar" class="w-full"></div>
+            <div class="flex flex-col w-full col-span-2 row-span-2 gap-4 p-4 bg-white border border-gray-200 shadow-sm rounded-2xl">
+                <div id="weeklyCalendar" class="w-full h-[300px] flex-shrink-0"></div>
             </div>
             {{-- TBD --}}
-<div class="flex flex-col w-full col-span-1 row-span-2 gap-4 p-4 mb-4 bg-white border border-gray-200 shadow-sm rounded-2xl md:mb-6 lg:mb-0">
-    <div class="flex items-center justify-center p-3 rounded-full bg-gradient-to-b from-purple-500 to-violet-600 w-min">
-        <x-icons.cliente />
-    </div>
-    <div class="flex flex-col gap-3.5">
-        <div class="flex flex-col gap-1.5">
-            <p class="text-zinc-500">Proximo Cliente</p>
-            <div class="flex gap-2">
-                <x-application-logo />
-                    @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
-                        <p class="font-medium text-zinc-900">{{ $proximaMarcacao->tipoServico->nome }}</p>
-                            @else
-                            <p class="font-medium text-zinc-900">Sem próximo serviço agendado.
-                        </p>
-                    @endif            
+            <div class="flex flex-col w-full col-span-1 row-span-2 gap-4 p-4 mb-4 bg-white border border-gray-200 shadow-sm rounded-2xl md:mb-6 lg:mb-0">
+                <div class="flex items-center justify-center p-3 rounded-full bg-gradient-to-b from-purple-500 to-violet-600 w-min">
+                    <x-icons.cliente />
                 </div>
-        </div>
-        <div class="flex gap-2">
-            
+                <div class="flex flex-col gap-3.5">
+                    <div class="flex flex-col gap-1.5">
+                        <p class="text-zinc-500">Proximo Cliente</p>
+                        <div class="flex gap-2">
+                            <x-application-logo />
+                                @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
+                                    <p class="font-medium text-zinc-900">{{ $proximaMarcacao->tipoServico->nome }}</p>
+                                        @else
+                                        <p class="font-medium text-zinc-900">Sem próximo serviço agendado.
+                                    </p>
+                                @endif            
+                            </div>
+                    </div>
+                <div class="flex gap-2">    
             <div class="flex flex-col w-full gap-1.5">
                 <p class="text-zinc-500">Colaborador</p>
                 <div class="flex items-center gap-2">
@@ -120,21 +118,10 @@
 
     </div>
 </x-app-layout>
-{{--
-    <div class="flex flex-col">
-        <p class="text-zinc-500">Próxima Marcação</p>
-        <div class="flex items-center gap-2">
-            <p class="text-sm text-zinc-900">Rodrigo Silva</p>
-            {{-- Mudar cor conforme o género
-            <x-pill class="text-white bg-blue-400 border-blue-400">Masculino</x-pill>
-        </div>
-    </div>
---}}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script><!-- Caso de erro dupli -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
                     
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var weeklyCalendarEl = document.getElementById('weeklyCalendar');

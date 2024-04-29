@@ -10,8 +10,8 @@
         Serviços
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes
-        :href="route('equipa.update')"
-        :active="request()->routeIs('equipa.update')">
+        :href="route('equipa.index')"
+        :active="request()->routeIs('equipa.index')">
         Equipa
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes

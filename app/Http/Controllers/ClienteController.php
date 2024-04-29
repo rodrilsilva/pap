@@ -13,49 +13,33 @@ class ClienteController extends Controller
         $this->middleware('auth')->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-{
-    // Recupera todos os clientes do banco de dados
-    $clientes = Cliente::all();
+    {
+        $clientes = Cliente::all();
 
-    // Conta o número de clientes
-    $numeroClientes = $clientes->count();
+        $numeroClientes = $clientes->count();
+        $proximasMarcacoes = [];
+        $numeroMarcacoes = [];
 
-    // Array para armazenar a próxima marcação para cada cliente
-    $proximasMarcacoes = [];
-
-    // Array para armazenar o número de marcações para cada cliente
-    $numeroMarcacoes = [];
-
-    // Percorre todos os clientes para calcular a próxima marcação e contar o número de marcações
-    foreach ($clientes as $cliente) {
-        // Busca a próxima marcação para o cliente
-        $proximaMarcacao = $cliente->proximaMarcacao();
+        foreach ($clientes as $cliente) {
+            $proximaMarcacao = $cliente->proximaMarcacao();
+            
+            if ($proximaMarcacao) {
+                $proximaMarcacaoFormatada = date('d-m-Y H:i', strtotime($proximaMarcacao->data_hora));
         
-        // Verifica se há uma próxima marcação
-        if ($proximaMarcacao) {
-            // Formata a data da próxima marcação para exibir apenas até o minuto
-            $proximaMarcacaoFormatada = date('d-m-Y H:i', strtotime($proximaMarcacao->data_hora));
-    
-            // Armazena a próxima marcação no array
-            $proximasMarcacoes[$cliente->id] = $proximaMarcacaoFormatada;
+                $proximasMarcacoes[$cliente->id] = $proximaMarcacaoFormatada;
+            }
+
+            $numeroMarcacoes[$cliente->id] = $cliente->marcacoes()->count();
         }
 
-        // Conta o número de marcações para o cliente
-        $numeroMarcacoes[$cliente->id] = $cliente->marcacoes()->count();
+        return view('pages.clientes.index', [
+            'clientes' => $clientes,
+            'numeroClientes' => $numeroClientes,
+            'proximasMarcacoes' => $proximasMarcacoes,
+            'numeroMarcacoes' => $numeroMarcacoes,
+        ]);
     }
-
-    // Passe os clientes, o número de clientes, as próximas marcações e o número de marcações para a visão
-    return view('pages.clientes.index', [
-        'clientes' => $clientes,
-        'numeroClientes' => $numeroClientes,
-        'proximasMarcacoes' => $proximasMarcacoes,
-        'numeroMarcacoes' => $numeroMarcacoes,
-    ]);
-}
 
 
     /**
@@ -71,6 +55,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+
         $cliente = Cliente::create($request->all());
 
         return redirect()->back()->with('success', 'Cliente criado com sucesso');
@@ -100,13 +85,13 @@ class ClienteController extends Controller
     public function update(Request $request, string $id)
     {
 
-    $cliente = Cliente::findOrFail($id);
+        $cliente = Cliente::findOrFail($id);
 
-    $cliente->update($request->all());
+        $cliente->update($request->all());
 
-    $cliente->save();
+        $cliente->save();
 
-    return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso');
+        return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso');
     }
 
     /**

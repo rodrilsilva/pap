@@ -11,7 +11,7 @@ class Colaborador extends Model
 
     protected $table = 'colaborador';
 
-    protected $fillable = ['nome', 'gen']; 
+    protected $fillable = ['nome', 'gen', 'id']; 
 
     public function marcacoes()
     {

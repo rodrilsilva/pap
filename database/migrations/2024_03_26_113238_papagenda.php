@@ -74,8 +74,8 @@ return new class extends Migration
             $table->id('id');
             $table->text('nome');
             $table->decimal('preco');
-            $table->string('icone');
-            $table->string('cor');
+            $table->string('icone')->nullable();
+            $table->string('cor')->nullable();
         });
 
         Schema::create('fatura', function (Blueprint $table) {
@@ -86,11 +86,11 @@ return new class extends Migration
             $table->foreign('servico_id')->references('id')->on('tipo_servico');
             $table->unsignedBigInteger('colaborador_id');
             $table->foreign('colaborador_id')->references('id')->on('colaborador');
-            $table->unsignedBigInteger('produto_id');
-            $table->foreign('produto_id')->references('id')->on('produto');
+            $table->unsignedBigInteger('produto_id')->nullable();
+            $table->foreign('produto_id')->references('id')->on('produto')->nullable();
             $table->decimal('preco_final', 10, 2);
-            $table->unsignedTinyInteger('desconto');
-            $table->decimal('qtd');
+            $table->unsignedTinyInteger('desconto')->nullable();
+            $table->decimal('qtd')->nullable();
         });
 
 

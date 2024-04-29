@@ -24,14 +24,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const ADMIN_HOME = '/clientes';
+    public const ADMIN_HOME = '/agenda';
 
     /**
      * The path to the client's "home" route.
      *
      * @var string
      */
-    public const CLIENT_HOME = '/agenda';
+    public const CLIENT_HOME = '/dashboard';//até criar a pagina para os clientes
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

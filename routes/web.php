@@ -35,12 +35,14 @@ Route::get('/events', [DashboardController::class, 'getEvents']);
 
 
 /******************** Rotas Agenda ********************/
-Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
-Route::get('/events', [AgendaController::class, 'getEvents']);
-Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvent']);
-Route::put('/agenda/{id}', [AgendaController::class, 'update']);
-Route::post('/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
-Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::get('/events', [AgendaController::class, 'getEvents']);
+    Route::delete('/agenda/{id}', [AgendaController::class, 'deleteEvent']);
+    Route::put('/agenda/{id}', [AgendaController::class, 'update']);
+    Route::post('/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
+    Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
+});
 
 /******************** Rotas Clientes ********************/
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -55,34 +57,43 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 /******************** Rotas Definições ********************/
-Route::get('/definicoes', [DefinicoesController::class, 'update'])->name('definicoes.update');
-Route::post('/definicoes', [DefinicoesController::class, 'save'])->name('definicoes.save');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/definicoes', [DefinicoesController::class, 'update'])->name('definicoes.update');
+    Route::post('/definicoes', [DefinicoesController::class, 'save'])->name('definicoes.save');
+});
 
 /************* Rotas Servicos *************/
-Route::get('/definicoes/servicos', [ServicosController::class, 'index'])->name('servicos.index');
-Route::get('/definicoes/servicos/update', [ServicosController::class, 'update'])->name('servicos.update');
-Route::get('/definicoes/servicos/create', [ServicosController::class, 'create'])->name('servicos.create');
-Route::post('/definicoes/servicos/store', [ServicosController::class, 'store'])->name('servicos.store'); 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/definicoes/servicos', [ServicosController::class, 'index'])->name('servicos.index');
+    Route::put('/definicoes/servicos/{id}', [ServicosController::class, 'update'])->name('servicos.update');
+    Route::get('/definicoes/servicos/create', [ServicosController::class, 'create'])->name('servicos.create');
+    Route::post('/definicoes/servicos/store', [ServicosController::class, 'store'])->name('servicos.store'); 
+});
 
 
 /************* Rotas Horário *************/
-Route::get('/definicoes/horario', [HorarioController::class, 'update'])->name('horario.update');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/definicoes/horario', [HorarioController::class, 'update'])->name('horario.update');
+});
 
 /************* Rotas Equipa *************/
-Route::get('/definicoes/equipa', [EquipaController::class, 'index'])->name('equipa.index');
-Route::get('/definicoes/equipa/update', [EquipaController::class, 'update'])->name('equipa.update');
-Route::post('/definicoes/equipa/store', [EquipaController::class, 'store'])->name('equipa.store');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/definicoes/equipa', [EquipaController::class, 'index'])->name('equipa.index');
+    Route::put('/definicoes/equipa/{id}', [EquipaController::class, 'update'])->name('equipa.update');
+    Route::post('/definicoes/equipa/store', [EquipaController::class, 'store'])->name('equipa.store');
+    Route::get('/definicoes/equipa/{equipa}', [EquipaController::class, 'edit'])->name('equipa.edit');
+});
 
 
 /************* Rotas Notificações *************/
-Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'update'])->name('notificacoes.update');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'update'])->name('notificacoes.update');
+});
 
 /******************** Rotas Autenticação ********************/
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -8,11 +8,9 @@
         <x-primary-button id="nova_marcacao" class="absolute w-full md:w-min left-80" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
         <div id="calendar" class="w-full"></div>
     </div>
-    <!-- FullCalendar -->
-
+    <!-- adicionaer os cripts para o FullCalendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script><!-- Caso de erro dupli -->
-
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -27,10 +25,10 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'timeGridWeek,timeGridDay'
                 },
                 nowIndicator: true,
-                initialView: 'dayGridMonth',
+                initialView: 'timeGridDay',
                 timeZone: 'GMT+1',
                 events: '/events',
                 editable: true,
@@ -38,8 +36,8 @@
                 slotDuration: '00:30:00',
                 slotLabelInterval: '01:00:00',
                 slotEventOverlap: false,
-                slotMinTime: '07:30:00',
-                slotMaxTime: '20:30:00',
+                slotMinTime: '08:30:00',
+                slotMaxTime: '19:00:00',
                 slotLabelInterval: '00:30:00',
                 slotLabelFormat: {
                     hour: '2-digit',
@@ -49,7 +47,7 @@
                 eventContent: function (info) {
                     var eventTitle = info.event.title;
                     var eventElement = document.createElement('div');
-                    eventElement.innerHTML = '<span style="cursor:pointer;"></span>' + eventTitle;
+                    eventElement.innerHTML = '<span style="cursor:pointer;">❌</span>' + eventTitle;
 
                     eventElement.querySelector('span').addEventListener('click', function () {
                         if (confirm("Você tem certeza que deseja apagar este evento?")) {
@@ -75,8 +73,9 @@
                     var eventId = info.event.id;
                     var newStartDate = info.event.start;
                     var newEndDate = info.event.end || newStartDate;
-                    var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
-                    var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
+                    
+                    var newStartDateUTC = newStartDate.toISOString(); // Incluindo a hora completa
+                    var newEndDateUTC = newEndDate.toISOString(); // Incluindo a hora completa
 
                     $.ajax({
                         method: 'PUT',
@@ -115,11 +114,6 @@
         </div>
         <form class="flex flex-col gap-4" method="POST" action="{{ route('agenda.store')}}">
             @csrf
-            {{-- Header --}}
-            <div class="pb-2 border-b">
-                <p class="text-zinc-500">Data</p>
-                <h6 class="text-lg">Terça-Feira, 26 setembro de 2023</h6>
-            </div>
             {{-- Conteúdo --}}
             <div class="flex gap-6">
                 <div class="flex flex-col w-full gap-2">
@@ -155,24 +149,6 @@
                         <x-text-input id="cliente" type="text" placeholder="Nome do Cliente" />
                     </div>
                 </div>
-                {{-- <div class="flex flex-col w-full gap-2">
-                    <div class="flex flex-col w-full gap-1">
-                        <x-input-label for="cliente">Cliente</x-input-label>
-                        <x-text-input id="cliente" type="text" placeholder="Carla Lima" />
-                    </div>
-                    <div class="flex flex-col w-full gap-1">
-                        <x-input-label for="telemovel">Telemovel</x-input-label>
-                        <x-text-input id="telemovel" type="text" placeholder="910374391" />
-                    </div>
-                    <div class="flex flex-col w-full gap-1">
-                        <x-input-label for="email">Email</x-input-label>
-                        <x-text-input id="email" type="email" placeholder="carlalima@cabeleireira.com" />
-                    </div>
-                    <div class="flex flex-col w-full gap-1">
-                        <x-input-label for="nif">NIF</x-input-label>
-                        <x-text-input id="nif" type="email" placeholder="18426263" />
-                    </div>
-                </div>--}}
             </div> 
             {{-- Footer --}}
             <div class="flex gap-4 pt-4 border-t">

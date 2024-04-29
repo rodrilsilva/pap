@@ -7,16 +7,9 @@ use Illuminate\Http\Request;
 class ServicosController extends Controller
 {
 
-
     public function index()
     {    
         return view('pages.servicos.index', ["servicos"=>Servico::all()]);
-    }
-
-
-    public function update()
-    {
-        return view('pages.servicos.index');
     }
 
     public function create()
@@ -42,5 +35,39 @@ class ServicosController extends Controller
 
         return redirect()->back()->with('success', 'Serviço criado com sucesso');
     }
+
+    
+    public function update(Request $request, $id)
+    {
+        // Validação dos dados recebidos do formulário
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'duracao' => 'required|integer|min:0',
+            'preco' => 'required|numeric|min:0',
+            'cor' => 'required|string|max:255',
+        ]);
+    
+        // Encontrar o serviço pelo ID
+        $servico = Servico::findOrFail($id);
+    
+        // Atualizar os dados do serviço com base nos dados do formulário
+        $servico->nome = $request->input('nome');
+        $servico->duracao = $request->input('duracao');
+        $servico->preco = $request->input('preco');
+        $servico->cor = $request->input('cor');
+    
+        // Salvar as alterações no banco de dados
+        $servico->save();
+    
+        // Redirecionar para uma rota adequada após a atualização
+        return redirect()->back()->with('success', 'Serviço criado com sucesso');
+    }
+    
+public function edit($id)
+{
+    $servico = Servico::findOrFail($id);
+    return view('pages.servicos.edit', compact('servico'));
+}
+
 
 }
