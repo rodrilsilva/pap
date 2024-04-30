@@ -10,18 +10,28 @@
                 </a>
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
+                    @if (Auth::user()->admin == '1')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
+                            {{ __('Agenda') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
+                            {{ __('Clientes') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('definicoes.update')" :active="request()->routeIs('definicoes.update')">
+                            {{ __('Definições') }}
+                        </x-nav-link>
+                    @endif
+                    @if (Auth::user()->admin == '0')
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Marcações') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
-                        {{ __('Agenda') }}
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Criar Marcação') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
-                        {{ __('Clientes') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('definicoes.update')" :active="request()->routeIs('definicoes.update')">
-                        {{ __('Definições') }}
-                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -73,6 +83,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @if (Auth::user()->admin == '1')
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Estatísticas') }}
             </x-responsive-nav-link>
@@ -85,6 +96,15 @@
             <x-responsive-nav-link :href="route('definicoes.update')" :active="request()->routeIs('definicoes.update')">
                 {{ __('Definições') }}
             </x-responsive-nav-link>
+            @endif
+            @if (Auth::user()->admin == '0')
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Marcações') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
+                {{ __('Criar Marcação') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

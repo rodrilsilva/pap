@@ -10,7 +10,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServicosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Tests\Feature\Auth\EmailVerificationTest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +84,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/definicoes/equipa', [EquipaController::class, 'index'])->name('equipa.index');
     Route::put('/definicoes/equipa/{id}', [EquipaController::class, 'update'])->name('equipa.update');
     Route::post('/definicoes/equipa/store', [EquipaController::class, 'store'])->name('equipa.store');
-    Route::get('/definicoes/equipa/{equipa}', [EquipaController::class, 'edit'])->name('equipa.edit');
+    //Route::get('/definicoes/equipa/{equipa}', [EquipaController::class, 'edit'])->name('equipa.edit');
+    Route::get('/definicoes/equipa/{id}/editar', [EquipaController::class, 'edit'])->name('equipa.edit');
 });
 
 

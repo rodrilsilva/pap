@@ -6,14 +6,14 @@
     </x-slot>
     <div class="m-auto max-w-7xl">
         <x-primary-button id="nova_marcacao" class="absolute w-full md:w-min left-80" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
-        <div id="calendar" class="w-full"></div>
+        <div id="calendar" class="w-full h-[632px]"></div>
     </div>
     <!-- adicionaer os cripts para o FullCalendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script>
         $.ajaxSetup({
-            headers: {
+            headers: { 
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });

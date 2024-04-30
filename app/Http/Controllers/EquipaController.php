@@ -18,7 +18,7 @@ class EquipaController extends Controller
     public function edit($id)
 {
     $colaborador = Colaborador::findOrFail($id); // Encontra o colaborador pelo ID
-    return view('pages.equipa.edit', compact('colaborador'));
+    return view('pages.equipa.index', compact('colaborador'));
 }
 
 
@@ -39,7 +39,7 @@ public function update(Request $request, $id)
     $colaborador->save();
 
     // Redireciona de volta para a página de edição do colaborador com uma mensagem de sucesso
-return redirect()->route('equipa.edit', ['id' => $id])->with('success', 'Colaborador atualizado com sucesso!');
+    return redirect()->route('equipa.index', ['id' => $id])->with('success', 'Colaborador atualizado com sucesso!');
 
 }
 
@@ -83,7 +83,8 @@ private function mapearGenero($genero)
         $colaborador->save();
 
         // Redireciona de volta para a página de atualização com uma mensagem de sucesso
-        return redirect()->route('equipa.update')->with('success', 'Colaborador adicionado com sucesso!');
+        return redirect()->route('equipa.index')->with('success', 'Colaborador adicionado com sucesso!');
     }
+    
     
 }

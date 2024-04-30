@@ -77,10 +77,12 @@
                     <x-text-input type="text" name="nome" id="nome" placeholder="Nome do Colaborador" value="{{ $colaborador->nome }}" required/>
                 </div>
 
-                <div class="flex flex-col w-full gap-1">
-                    <x-input-label for="gen">gen</x-input-label>
-                    <x-text-input type="number" name="gen" id="gen" placeholder="gen" value="{{ $colaborador->gen }}" required/>
-                </div>
+                <select name="gen" id="gen" required>
+                    <option value="masculino" {{ $colaborador->gen === 1 ? 'selected' : '' }}>Masculino</option>
+                    <option value="feminino" {{ $colaborador->gen === 2 ? 'selected' : '' }}>Feminino</option>
+                    <option value="outro" {{ $colaborador->gen === 0 ? 'selected' : '' }}>Outro</option>
+                </select>
+                
             </div>
             {{-- Footer --}}
             <div class="flex gap-4 pt-4 border-t">
