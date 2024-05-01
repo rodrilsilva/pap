@@ -51,7 +51,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
     Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
-    /******************** sep ********************/
     Route::post('/clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
     Route::get('/clientes/show', [ClienteController::class, 'show'])->name('clientes.show');
     Route::get('/clientes/edit/{cliente}', [ClienteController::class, 'edit'])->name('clientes.edit');
@@ -76,7 +75,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 /************* Rotas Horário *************/
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/definicoes/horario', [HorarioController::class, 'update'])->name('horario.update');
+    Route::get('/definicoes/horario', [HorarioController::class, 'index'])->name('horario.index');
+    Route::post('/definicoes/horario/update/{id}', [HorarioController::class, 'update'])->name('horario.update');
+    
 });
 
 /************* Rotas Equipa *************/
@@ -84,14 +85,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/definicoes/equipa', [EquipaController::class, 'index'])->name('equipa.index');
     Route::put('/definicoes/equipa/{id}', [EquipaController::class, 'update'])->name('equipa.update');
     Route::post('/definicoes/equipa/store', [EquipaController::class, 'store'])->name('equipa.store');
-    //Route::get('/definicoes/equipa/{equipa}', [EquipaController::class, 'edit'])->name('equipa.edit');
     Route::get('/definicoes/equipa/{id}/editar', [EquipaController::class, 'edit'])->name('equipa.edit');
 });
 
 
 /************* Rotas Notificações *************/
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'update'])->name('notificacoes.update');
+    Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'index'])->name('notificacoes.index');
+    Route::get('/definicoes/notificacoes/update', [NotificacoesController::class, 'update'])->name('notificacoes.update');
 });
 
 /******************** Rotas Autenticação ********************/

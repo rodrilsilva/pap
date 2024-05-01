@@ -7,4 +7,5 @@
     <div class="flex flex-col m-auto md:flex-row md:space-x-32 max-w-7xl">
         <x-definicoes-menu/>
     </div>
+    
 </x-app-layout>

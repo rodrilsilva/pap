@@ -15,13 +15,13 @@
         Equipa
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes
-        :href="route('horario.update')"
-        :active="request()->routeIs('horario.update')">
+        :href="route('horario.index')"
+        :active="request()->routeIs('horario.index')">
         Horário
     </x-btn-nav-definicoes>
     <x-btn-nav-definicoes
-        :href="route('notificacoes.update')"
-        :active="request()->routeIs('notificacoes.update')">
+        :href="route('notificacoes.index')"
+        :active="request()->routeIs('notificacoes.index')">
         Notificações
     </x-btn-nav-definicoes>
 </div>
