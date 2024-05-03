@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     @if (Auth::user()->admin == '0')    
-    [TO DO]
+    @include('includes.dashboard-cliente')
     @endif
     @if (Auth::user()->admin == '1')    
     @include('includes.dashboard')

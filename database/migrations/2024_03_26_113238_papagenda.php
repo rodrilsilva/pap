@@ -70,6 +70,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
+
         Schema::create('produto', function (Blueprint $table) {
             $table->id('id');
             $table->text('nome');

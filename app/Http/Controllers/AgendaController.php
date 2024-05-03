@@ -45,11 +45,9 @@ public function update(Request $request, $id)
 {
     $marcacao = Marcacao::findOrFail($id);
 
-    // Obtenha as datas e horas diretamente do input e ajuste o formato conforme necessário
     $start_date = Carbon::parse($request->input('start_date'))->format('Y-m-d\TH:i:s'); 
     $end_date = Carbon::parse($request->input('end_date'))->format('Y-m-d\TH:i:s');
 
-    // Atualize as datas e horas no modelo Marcacao
     $marcacao->update([
         'data_hora' => $start_date,
         'end_date' => $end_date

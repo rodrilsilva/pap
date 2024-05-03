@@ -28,7 +28,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Marcações') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('cliente.index')" :active="request()->routeIs('cliente.index')">
                         {{ __('Criar Marcação') }}
                     </x-nav-link>
                     @endif
@@ -101,7 +101,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Marcações') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
+            <x-responsive-nav-link :href="route('cliente.index')" :active="request()->routeIs('cliente.index')">
                 {{ __('Criar Marcação') }}
             </x-responsive-nav-link>
             @endif

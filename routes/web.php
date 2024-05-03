@@ -10,6 +10,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServicosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MarcacaoController;
+use App\Models\ClienteViewController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Tests\Feature\Auth\EmailVerificationTest;
@@ -88,7 +90,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/definicoes/equipa/{id}/editar', [EquipaController::class, 'edit'])->name('equipa.edit');
 });
 
-
 /************* Rotas Notificações *************/
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/definicoes/notificacoes', [NotificacoesController::class, 'index'])->name('notificacoes.index');
@@ -103,5 +104,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+/******************** Rotas Views Clientes ********************/
+Route::get('/criar-marcacao', function () {
+    return view('pages.cliente.create_marcacao');
+});
+
+/******************** Rotas Views formulário de marcação sem login ********************/
+Route::get('/', [MarcacaoController::class, 'create'])->name('marcacao.create');
+Route::post('/marcacao/store', [MarcacaoController::class, 'store'])->name('marcacao.store');
+Route::post('/horarios-disponiveis', [MarcacaoController::class, 'horariosDisponiveis']);
+
+Route::get('/criar-marcacao', [ClienteViewController::class, 'create'])->name('cliente.index');
 
 require __DIR__.'/auth.php';

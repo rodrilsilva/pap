@@ -31,6 +31,7 @@ class DashboardController extends Controller
             'dinheiroFaturado' => $dinheiroFaturado,
             'proximaMarcacao' => $proximaMarcacao
         ]);
+        
     }
 
 
