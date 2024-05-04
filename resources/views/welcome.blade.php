@@ -9,16 +9,16 @@
 </head>
 <body class="h-screen bg-neutral-50">
     <header class="fixed flex items-center justify-between w-full h-16 px-6 border-b z-100 lg:px-24">
-        <a href="{{ route('dashboard') }}"  class="flex items-center gap-2">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
             <x-application-logo />
             <h4 class="text-xl font-medium whitespace-nowrap">Carla Lima</h4>
         </a>
         <div class="space-y-2">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class=" text-neutral-600 hover:text-neutral-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-violet-500">Home</a>
+                    <a href="{{ url('/dashboard') }}" class="text-neutral-600 hover:text-neutral-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-violet-500">Home</a>
                 @else
-                    <a href="{{ route('login') }}" class=" text-neutral-600 hover:text-neutral-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-violet-500">Log in</a>
+                    <a href="{{ route('login') }}" class="text-neutral-600 hover:text-neutral-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-violet-500">Log in</a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="ml-4 text-neutral-600 hover:text-neutral-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-violet-500">Registo</a>
                     @endif
@@ -37,33 +37,38 @@
                 <div class="flex flex-col gap-4 lg:flex-row">
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-96">
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="nome">Nome <span class="text-red-500">*</span></x-input-label>
-                            <x-text-input id="nome" name="nome" required />
+                            <label for="nome">Nome <span class="text-red-500">*</span></label>
+                            <input id="nome" name="nome" type="text" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="tel">Telemóvel <span class="text-red-500">*</span></x-input-label>
-                            <x-text-input type="tel" id="tel" name="tel" required />
+                            <label for="tlm">Telemóvel <span class="text-red-500">*</span></label>
+                            <input id="tlm" name="tlm" type="tlm" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="email">Email <span class="text-red-500">*</span></x-input-label>
-                            <x-text-input type="email" id="email" name="email" required />
+                            <label for="email">Email <span class="text-red-500">*</span></label>
+                            <input id="email" name="email" type="email" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="data">Data da Marcação <span class="text-red-500">*</span></x-input-label>
-                            <input type="date" id="data" name="data" required />
+                            <label for="data">Data da Marcação <span class="text-red-500">*</span></label>
+                            <input id="data" name="data" type="date" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="servico">Serviço <span class="text-red-500">*</span></x-input-label>
-                            <x-select name="servico" id="servico" required>
+                            <label for="servico">Serviço <span class="text-red-500">*</span></label>
+                            <select name="servico" id="servico" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500">
                                 <option value="" disabled selected>Escolha um serviço</option>
                                 @foreach($servicos as $servico)
                                     <option value="{{ $servico->id }}">{{ $servico->nome }}</option>
                                 @endforeach
-                            </x-select>
+                            </select>
                         </div>
                     </div>
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-[512px]" id="horarios-disponiveis">
                         <!-- Aqui serão exibidos os horários disponíveis -->
+                        <select id="horarioSelecionado" class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500">
+                            <option value="" disabled selected>Escolha uma hora</option>
+                            <input type="hidden" id="horaSelecionada" name="hora" />
+
+                        </select>
                     </div>
                 </div>
                 <button type="submit" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white">Submeter</button>
@@ -84,8 +89,44 @@
     <script>
         document.getElementById('data').addEventListener('change', function() {
             let dataSelecionada = this.value;
-            // Envie uma solicitação AJAX ao servidor para buscar os horários disponíveis para a data selecionada
-            // Atualize o conteúdo da div "horarios-disponiveis" com os horários retornados
+            let servicoSelecionado = document.getElementById('servico').value;
+
+            // Envie uma solicitação AJAX ao servidor
+            axios.get('/horarios-disponiveis', {
+                params: {
+                    data: dataSelecionada,
+                    servico: servicoSelecionado
+                }
+            })
+            .then(function (response) {
+                // Limpar a lista de horários disponíveis
+                let horariosDisponiveisSelect = document.getElementById('horarioSelecionado');
+                horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha uma hora</option>';
+
+                // Verificar se há horários disponíveis
+                if (response.data.length > 0) {
+                    // Criar e adicionar opções para os horários disponíveis
+                    response.data.forEach(function(horario) {
+                        let option = document.createElement('option');
+                        option.text = horario;
+                        option.value = horario;
+                        horariosDisponiveisSelect.appendChild(option);
+                    });
+                } else {
+                    // Se não houver horários disponíveis, exibir uma mensagem
+                    let mensagem = document.createElement('option');
+                    mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
+                    horariosDisponiveisSelect.appendChild(mensagem);
+                }
+            })
+            .catch(function (error) {
+                console.error('Erro ao buscar horários disponíveis:', error);
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('horarioSelecionado').addEventListener('change', function() {
+            document.getElementById('horaSelecionada').value = this.value;
         });
     </script>
     

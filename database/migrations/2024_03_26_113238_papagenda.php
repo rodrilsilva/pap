@@ -60,10 +60,10 @@ return new class extends Migration
             $table->id('id');
             $table->datetime('data_hora');
             $table->unsignedTinyInteger('estado')->nullable();
-            $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id')->on('cliente');
-            $table->unsignedBigInteger('colaborador_id'); //adicionadas para teste
-            $table->foreign('colaborador_id')->references('id')->on('colaborador'); //adicionadas para teste
+            $table->unsignedBigInteger('cliente_id')->nullable();
+            $table->foreign('cliente_id')->references('id')->on('cliente')->nullable();
+            $table->unsignedBigInteger('colaborador_id')->nullable(); //adicionadas para teste
+            $table->foreign('colaborador_id')->references('id')->on('colaborador')->nullable(); //adicionadas para teste
             $table->unsignedBigInteger('tipo_servico_id'); //adicionadas para teste
             $table->foreign('tipo_servico_id')->references('id')->on('tipo_servico'); //adicionadas para teste
             $table->text('obs')->nullable();

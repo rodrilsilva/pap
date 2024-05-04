@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 /******************** Rota Dashboard ********************/
 Route::get('/dashboard', function () {
@@ -112,8 +112,9 @@ Route::get('/criar-marcacao', function () {
 
 /******************** Rotas Views formulário de marcação sem login ********************/
 Route::get('/', [MarcacaoController::class, 'create'])->name('marcacao.create');
-Route::post('/marcacao/store', [MarcacaoController::class, 'store'])->name('marcacao.store');
-Route::post('/horarios-disponiveis', [MarcacaoController::class, 'horariosDisponiveis']);
+Route::get('/horarios-disponiveis', [MarcacaoController::class, 'horariosDisponiveis']);
+Route::post('/criar-marcacao', [MarcacaoController::class, 'store'])->name('marcacao.store');
+
 
 Route::get('/criar-marcacao', [ClienteViewController::class, 'create'])->name('cliente.index');
 
