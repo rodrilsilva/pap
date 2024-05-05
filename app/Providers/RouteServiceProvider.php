@@ -33,6 +33,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const CLIENT_HOME = '/dashboard';//até criar a pagina para os clientes
 
+        /**
+     * The path to the client's "home" route.
+     *
+     * @var string
+     */
+    public const LOGIN = '/login';
+
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */

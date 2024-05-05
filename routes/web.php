@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ClienteSideController;
 use App\Http\Controllers\DefinicoesController;
 use App\Http\Controllers\EquipaController;
 use App\Http\Controllers\HorarioController;

@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Fatura;
 use App\Models\Marcacao;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
