@@ -63,7 +63,6 @@ public function update(Request $request, $id)
 
     public function store(Request $request)
     {
-        // validar os dados
         $validatedData = $request->validate([
             'data_hora' => 'required|date',
             'servico_id' => 'required|exists:tipo_servico,id',
@@ -72,7 +71,6 @@ public function update(Request $request, $id)
         ]);
 
         try {
-            // criacao da marcacao
             $marcacao = new Marcacao();
             $marcacao->data_hora = $validatedData['data_hora'];
             $marcacao->estado = null;

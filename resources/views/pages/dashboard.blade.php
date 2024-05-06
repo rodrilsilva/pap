@@ -3,6 +3,7 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Dashboard') }}
         </h2>
+
     </x-slot>
     @if (Auth::user()->admin == '0')    
     @include('includes.dashboard-cliente')

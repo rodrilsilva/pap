@@ -2,38 +2,77 @@
     <div class="grid items-center justify-center w-full h-full overflow-hidden">
         <div class="grid p-6 space-y-4 place-content-center">
             <div class="space-y-1 text-center">
-                <h4 class="text-2xl text-neutral-900">Realizar Marcação</h2>
+                <h4 class="text-2xl text-neutral-900">Realizar Marcação</h4>
                 <p class="text-neutral-500">Deseja realizar uma marcação? Vamos a isso!</p>
             </div>
-            <form class="space-y-2">
+            <form id="form-marcacao" class="space-y-2">
                 <div class="flex flex-col gap-4 lg:flex-row">
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-96">
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="colaborador">Colaborador</x-input-label>
-                            <x-select>
-                                <option value="" disabled selected>Escolha um Colaborador</option>
-                                <option value="">op2</option>
-                                <option value="">op3</option>
-                                <option value="">op4</option>
+                            <x-input-label for="servico">Serviço</x-input-label>
+                            <x-select name="servico" id="servico">
+                                <option value="" disabled selected>Escolha um serviço</option>
+                                @foreach($servicos as $servico)
+                                    <option value="{{ $servico->id }}">{{ $servico->nome }}</option>
+                                @endforeach
                             </x-select>
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
-                            <x-input-label for="servico">Serviço</x-input-label>
-                            <x-select>
-                                <option value="" disabled selected>Escolha um serviço</option>
-                                <option value="">op2</option>
-                                <option value="">op3</option>
-                                <option value="">op4</option>
-                            </x-select>
+                            <x-input-label for="data">Data da Marcação</x-input-label>
+                            <input id="data" name="data" type="date" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
+                        </div>
+                        <div class="flex flex-col gap-0.5 font-medium">
+                            <x-input-label for="hora">Horário da Marcação</x-input-label>
+                            <select name="hora" id="hora" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500">
+                                <option value="" disabled selected>Escolha um horário</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-[512px]">
-                        [Colocar aqui de alguma maneira os horários disponiveis.
-                        Talvez ajax para fazer em tempo real, ficava fixe]
+                    <div id="horarios-disponiveis" class="p-4 space-y-4 bg-white border rounded-2xl lg:w-[512px]">
+                        <!-- Aqui serão exibidos os horários disponíveis -->
                     </div>
                 </div>
                 <button type="submit" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white">Submeter</button>
-            </div>
+            </form>
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.getElementById('data').addEventListener('change', function() {
+        let dataSelecionada = this.value;
+        let servicoSelecionado = document.getElementById('servico').value;
+
+        // Envie uma solicitação AJAX ao servidor
+        axios.get('/horarios-disponiveis', {
+            params: {
+                data: dataSelecionada,
+                servico: servicoSelecionado
+            }
+        })
+        .then(function (response) {
+            // Limpar a lista de horários disponíveis
+            let horariosDisponiveisSelect = document.getElementById('hora');
+            horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha um horário</option>';
+
+            // Verificar se há horários disponíveis
+            if (response.data.length > 0) {
+                // Criar e adicionar opções para os horários disponíveis
+                response.data.forEach(function(horario) {
+                    let option = document.createElement('option');
+                    option.text = horario;
+                    option.value = horario;
+                    horariosDisponiveisSelect.appendChild(option);
+                });
+            } else {
+                // Se não houver horários disponíveis, exibir uma mensagem
+                let mensagem = document.createElement('option');
+                mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
+                horariosDisponiveisSelect.appendChild(mensagem);
+            }
+        })
+        .catch(function (error) {
+            console.error('Erro ao buscar horários disponíveis:', error);
+        });
+    });
+</script>

@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\ClienteSideController;
+use App\Http\Controllers\ClienteLoginMarcacao;
+use App\Http\Controllers\DashboardClienteController;
 use App\Http\Controllers\DefinicoesController;
 use App\Http\Controllers\EquipaController;
 use App\Http\Controllers\HorarioController;
@@ -33,11 +34,17 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-/******************** Rota Dashboard ********************/
+/******************** Rota Dashboard
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/events', [DashboardController::class, 'getEvents']);
+Route::get('/events', [DashboardController::class, 'getEvents']); ********************/
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/events', [DashboardController::class, 'getEvents']);
+});
+
 
 
 /******************** Rotas Agenda ********************/
@@ -102,21 +109,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+/******************** Rotas Views para Dashboard dos Clientes ********************/
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/marcacoes.cliente', [DashboardClienteController::class, 'index'])->name('marcacoes.cliente');
 });
 
-/******************** Rotas Views Clientes ********************/
+/******************** Rotas Views Clientes 
 Route::get('/criar-marcacao', function () {
     return view('pages.cliente.create_marcacao');
-});
+});********************/
 
 /******************** Rotas Views formulário de marcação sem login ********************/
 Route::get('/', [MarcacaoController::class, 'create'])->name('marcacao.create');
 Route::get('/horarios-disponiveis', [MarcacaoController::class, 'horariosDisponiveis']);
-Route::post('/criar-marcacao', [MarcacaoController::class, 'store'])->name('marcacao.store');
+Route::post('/criar-marcacao-wl', [MarcacaoController::class, 'store'])->name('marcacao.store');
 
+/******************** Rotas Views formulário de marcação com login ********************/
+Route::middleware('auth')->group(function () {
+    Route::post('/criar-marcacao', [ClienteLoginMarcacao::class, 'store'])->name('cliente.index');
+    Route::get('/criar-marcacao/create', [ClienteLoginMarcacao::class, 'create'])->name('cliente.create');
 
-Route::get('/criar-marcacao', [ClienteViewController::class, 'create'])->name('cliente.index');
-
+//Route::get('/criar-marcacao', [ClienteViewController::class, 'create'])->name('cliente.index');
+});
 require __DIR__.'/auth.php';

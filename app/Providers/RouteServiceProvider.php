@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const CLIENT_HOME = '/dashboard';//até criar a pagina para os clientes
+    public const CLIENT_HOME = '/marcacoes.cliente';//até criar a pagina para os clientes
 
         /**
      * The path to the client's "home" route.

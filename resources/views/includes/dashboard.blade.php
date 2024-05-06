@@ -54,18 +54,16 @@
         <div class="flex gap-2">    
     <div class="flex flex-col w-full gap-1.5">
         <p class="text-zinc-500">Colaborador</p>
-        <div class="flex items-center gap-2">
-            <!-- Substituído pelo seu SVG de usuário -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 text-zinc-900">
-                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
-            </svg>
-            @if ($proximaMarcacao && $proximaMarcacao->tipoServico)
-                <p class="font-medium text-zinc-900">{{ $proximaMarcacao->colaborador->nome }}</p>
-                    @else
-                    <p class="font-medium text-zinc-900">
-                </p>
-            @endif  
-        </div>
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 text-zinc-900">
+                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                </svg>
+                @if ($proximaMarcacao && $proximaMarcacao->colaborador)
+                    <p class="font-medium text-zinc-900">{{ $proximaMarcacao->colaborador->nome }}</p>
+                @else
+                    <p class="font-medium text-zinc-900">Não definido</p>
+                @endif  
+            </div>
     </div>
     <div class="flex flex-col w-full gap-1.5">
         <p class="text-zinc-500">Cliente</p>

@@ -25,7 +25,7 @@
                         </x-nav-link>
                     @endif
                     @if (Auth::user()->admin == '0')
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('marcacoes.cliente')" :active="request()->routeIs('marcacoes.cliente')">
                         {{ __('Marcações') }}
                     </x-nav-link>
                     <x-nav-link :href="route('cliente.index')" :active="request()->routeIs('cliente.index')">
@@ -98,7 +98,7 @@
             </x-responsive-nav-link>
             @endif
             @if (Auth::user()->admin == '0')
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('marcacoes.cliente')" :active="request()->routeIs('marcacoes.cliente')">
                 {{ __('Marcações') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cliente.index')" :active="request()->routeIs('cliente.index')">

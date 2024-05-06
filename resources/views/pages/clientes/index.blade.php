@@ -203,10 +203,9 @@ function showEditModal(id) {
 
 <script>
     function apagar_cliente(event, id) {
-    event.preventDefault(); // Para evitar o comportamento padrão do link
+    event.preventDefault();
     if (confirm('Tem certeza que deseja apagar este cliente?')) {
-        // Envie uma requisição AJAX para o endpoint de exclusão do cliente
-        fetch(`/clientes/${id}`, {  // Use o ID passado como parâmetro
+        fetch(`/clientes/${id}`, { 
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -215,10 +214,8 @@ function showEditModal(id) {
         })
         .then(response => {
             if (response.ok) {
-                // Se a exclusão foi bem-sucedida, recarregue a página para atualizar a lista de clientes
                 window.location.reload();
             } else {
-                // Se houve um erro ao excluir o cliente, mostre uma mensagem de erro
                 alert('Erro ao apagar o cliente. Por favor, tente novamente.');
             }
         })
