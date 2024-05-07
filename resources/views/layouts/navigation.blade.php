@@ -4,10 +4,18 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
+                @if (Auth::user()->admin == '1')
                 <a href="{{ route('dashboard') }}"  class="flex items-center gap-2">
                     <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
                     <h4 class="text-xl font-medium whitespace-nowrap">Carla Lima</h4>
                 </a>
+                @endif
+                @if (Auth::user()->admin == '0')
+                <a href="{{ route('cliente.index') }}"  class="flex items-center gap-2">
+                    <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
+                    <h4 class="text-xl font-medium whitespace-nowrap">Carla Lima</h4>
+                </a>
+                @endif
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                     @if (Auth::user()->admin == '1')

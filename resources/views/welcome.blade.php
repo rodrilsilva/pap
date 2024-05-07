@@ -90,8 +90,6 @@
         document.getElementById('data').addEventListener('change', function() {
             let dataSelecionada = this.value;
             let servicoSelecionado = document.getElementById('servico').value;
-
-            // Envie uma solicitação AJAX ao servidor
             axios.get('/horarios-disponiveis', {
                 params: {
                     data: dataSelecionada,
@@ -99,13 +97,10 @@
                 }
             })
             .then(function (response) {
-                // Limpar a lista de horários disponíveis
                 let horariosDisponiveisSelect = document.getElementById('horarioSelecionado');
                 horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha uma hora</option>';
 
-                // Verificar se há horários disponíveis
                 if (response.data.length > 0) {
-                    // Criar e adicionar opções para os horários disponíveis
                     response.data.forEach(function(horario) {
                         let option = document.createElement('option');
                         option.text = horario;
@@ -113,7 +108,6 @@
                         horariosDisponiveisSelect.appendChild(option);
                     });
                 } else {
-                    // Se não houver horários disponíveis, exibir uma mensagem
                     let mensagem = document.createElement('option');
                     mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
                     horariosDisponiveisSelect.appendChild(mensagem);

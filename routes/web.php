@@ -34,18 +34,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-/******************** Rota Dashboard
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/events', [DashboardController::class, 'getEvents']); ********************/
-
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/events', [DashboardController::class, 'getEvents']);
 });
-
-
 
 /******************** Rotas Agenda ********************/
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -114,11 +106,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/marcacoes.cliente', [DashboardClienteController::class, 'index'])->name('marcacoes.cliente');
 });
 
-/******************** Rotas Views Clientes 
-Route::get('/criar-marcacao', function () {
-    return view('pages.cliente.create_marcacao');
-});********************/
-
 /******************** Rotas Views formulário de marcação sem login ********************/
 Route::get('/', [MarcacaoController::class, 'create'])->name('marcacao.create');
 Route::get('/horarios-disponiveis', [MarcacaoController::class, 'horariosDisponiveis']);
@@ -126,9 +113,9 @@ Route::post('/criar-marcacao-wl', [MarcacaoController::class, 'store'])->name('m
 
 /******************** Rotas Views formulário de marcação com login ********************/
 Route::middleware('auth')->group(function () {
-    Route::post('/criar-marcacao', [ClienteLoginMarcacao::class, 'store'])->name('cliente.index');
-    Route::get('/criar-marcacao/create', [ClienteLoginMarcacao::class, 'create'])->name('cliente.create');
-
-//Route::get('/criar-marcacao', [ClienteViewController::class, 'create'])->name('cliente.index');
+    Route::get('/criar-marcacao', [ClienteLoginMarcacao::class, 'create'])->name('cliente.index');
+    Route::post('/criar-marcacao/create', [ClienteLoginMarcacao::class, 'store'])->name('cliente.create');
+    Route::get('/obter-cliente-id', [ClienteLoginMarcacao::class, 'suaFuncao'])->name('cliente.obter-cliente-id');
 });
+
 require __DIR__.'/auth.php';

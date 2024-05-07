@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Marcacao;
 use App\Models\Servico;
 use Carbon\Carbon;
@@ -18,31 +19,31 @@ class ClienteLoginMarcacao extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
-        // Validação dos dados da requisição
         $request->validate([
             'servico' => 'required',
             'data' => 'required|date',
-            'hora' => 'required'
+            'hora' => 'required',
         ]);
 
         try {
-            // Obtém o cliente autenticado
-            $cliente = Auth::user()->cliente;
+            $userId = Auth::id();
+            
+            $clienteId = Cliente::where('users_id', $userId)->value('id');
 
-            // Cria a marcação associada ao cliente
-            $marcação = new Marcacao([
-                'data_hora' => Carbon::createFromFormat('Y-m-d H:i', $request->input('data') . ' ' . $request->input('hora')),
-                'tipo_servico_id' => $request->input('servico'),
-            ]);
+            if ($clienteId) {
+                $novaMarcacao = new Marcacao();
+                $novaMarcacao->tipo_servico_id = $request->servico;
+                $novaMarcacao->data_hora = Carbon::createFromFormat('Y-m-d H:i', $request->data . ' ' . $request->hora);
+                $novaMarcacao->cliente_id = $clienteId;
+                $novaMarcacao->save();
 
-            $cliente->marcacoes()->save($marcação);
-
-            // Redireciona com uma mensagem de sucesso
-            return redirect()->back()->with('success', 'Marcação criada com sucesso!');
+                return redirect()->route('pagina_de_confirmacao')->with('success', 'Marcação criada com sucesso!');
+            } else {
+                return redirect()->back()->with('error', 'Cliente não encontrado para este usuário.');
+            }
         } catch (\Exception $e) {
-            // Se ocorrer um erro, redireciona com uma mensagem de erro
             return redirect()->back()->with('error', 'Erro ao criar marcação: ' . $e->getMessage());
         }
     }
 }
+

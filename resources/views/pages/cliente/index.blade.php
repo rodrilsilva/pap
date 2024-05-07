@@ -5,8 +5,9 @@
                 <h4 class="text-2xl text-neutral-900">Realizar Marcação</h4>
                 <p class="text-neutral-500">Deseja realizar uma marcação? Vamos a isso!</p>
             </div>
-            <form id="form-marcacao" class="space-y-2">
-                <div class="flex flex-col gap-4 lg:flex-row">
+                <form id="form-marcacao" class="space-y-2" method="POST" action="{{ route('cliente.create')}}">
+                    @csrf
+                    <div class="flex flex-col gap-4 lg:flex-row">
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-96">
                         <div class="flex flex-col gap-0.5 font-medium">
                             <x-input-label for="servico">Serviço</x-input-label>
@@ -43,7 +44,6 @@
         let dataSelecionada = this.value;
         let servicoSelecionado = document.getElementById('servico').value;
 
-        // Envie uma solicitação AJAX ao servidor
         axios.get('/horarios-disponiveis', {
             params: {
                 data: dataSelecionada,
@@ -51,13 +51,10 @@
             }
         })
         .then(function (response) {
-            // Limpar a lista de horários disponíveis
             let horariosDisponiveisSelect = document.getElementById('hora');
             horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha um horário</option>';
 
-            // Verificar se há horários disponíveis
             if (response.data.length > 0) {
-                // Criar e adicionar opções para os horários disponíveis
                 response.data.forEach(function(horario) {
                     let option = document.createElement('option');
                     option.text = horario;
@@ -65,7 +62,6 @@
                     horariosDisponiveisSelect.appendChild(option);
                 });
             } else {
-                // Se não houver horários disponíveis, exibir uma mensagem
                 let mensagem = document.createElement('option');
                 mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
                 horariosDisponiveisSelect.appendChild(mensagem);

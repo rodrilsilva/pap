@@ -18,7 +18,6 @@ class Cliente extends Model
      */
     protected $fillable = ['nome', 'email', 'tlm', 'nif', 'observacoes', 'dh', 'users_id'];
 
-    // Relação um-para-muitos com as marcações
     public function marcacoes()
     {
         return $this->hasMany(Marcacao::class, 'cliente_id');
