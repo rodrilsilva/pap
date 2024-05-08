@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Carla Cabeleireiros</title>
-    {{-- Scripts --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-screen bg-neutral-50">
@@ -63,14 +62,13 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-[512px]" id="horarios-disponiveis">
-                        <!-- Aqui serão exibidos os horários disponíveis -->
                         <select id="horarioSelecionado" class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500">
                             <option value="" disabled selected>Escolha uma hora</option>
                             <input type="hidden" id="horaSelecionada" name="hora" />
-
                         </select>
                     </div>
                 </div>
+                <button type="button" id="btnHorariosDisponiveis" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white" style="display: none;">Ver Horários Disponíveis</button>
                 <button type="submit" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white">Submeter</button>
             </form>
         </section>
@@ -88,20 +86,37 @@
     </div>
     <script>
         document.getElementById('data').addEventListener('change', function() {
-            let dataSelecionada = this.value;
+            verificarCamposPreenchidos();
+        });
+    
+        document.getElementById('servico').addEventListener('change', function() {
+            verificarCamposPreenchidos();
+        });
+    
+        function verificarCamposPreenchidos() {
+            let dataSelecionada = document.getElementById('data').value;
             let servicoSelecionado = document.getElementById('servico').value;
-            axios.get('/horarios-disponiveis', {
-                params: {
-                    data: dataSelecionada,
-                    servico: servicoSelecionado
-                }
-            })
-            .then(function (response) {
+    
+            if (dataSelecionada && servicoSelecionado) {
+                document.getElementById('btnHorariosDisponiveis').style.display = 'block';
+            } else {
+                document.getElementById('btnHorariosDisponiveis').style.display = 'none';
+            }
+        }
+    
+        document.getElementById('btnHorariosDisponiveis').addEventListener('click', function() {
+            let dataSelecionada = document.getElementById('data').value;
+            let servicoSelecionado = document.getElementById('servico').value;
+    
+            // Fazendo a solicitação GET diretamente para a rota do Laravel
+            fetch(`/horarios-disponiveis?data=${dataSelecionada}&servico=${servicoSelecionado}`)
+            .then(response => response.json())
+            .then(data => {
                 let horariosDisponiveisSelect = document.getElementById('horarioSelecionado');
                 horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha uma hora</option>';
-
-                if (response.data.length > 0) {
-                    response.data.forEach(function(horario) {
+    
+                if (data.length > 0) {
+                    data.forEach(function(horario) {
                         let option = document.createElement('option');
                         option.text = horario;
                         option.value = horario;
@@ -117,8 +132,7 @@
                 console.error('Erro ao buscar horários disponíveis:', error);
             });
         });
-    </script>
-    <script>
+    
         document.getElementById('horarioSelecionado').addEventListener('change', function() {
             document.getElementById('horaSelecionada').value = this.value;
         });
