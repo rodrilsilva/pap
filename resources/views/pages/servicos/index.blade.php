@@ -36,7 +36,6 @@
         <form class="flex flex-col gap-4" method="POST" action="{{ route('servicos.update', $servico->id) }}">
             @csrf
             @method('PUT')
-            {{-- Conteúdo --}}
             <div class="flex flex-col gap-4">
                 <div class="flex flex-col w-full gap-1">
                     <x-input-label for="nome_servico">Nome do Serviço</x-input-label>
@@ -55,7 +54,6 @@
                     <input type="color" name="cor" id="cor" value="{{ $servico->cor }}"/>
                 </div>
             </div>
-            {{-- Footer --}}
             <div class="flex gap-4 pt-4 border-t">
                 <x-secondary-button onclick="fechar_janela_editar_servico()">Cancelar</x-secondary-button>
                 <x-primary-button type="submit">Atualizar Serviço</x-primary-button>
@@ -73,27 +71,22 @@
         </div>
         <form class="flex flex-col gap-4" method="POST" action="{{ route('servicos.store')}}">
             @csrf
-            {{-- Nome do serviço --}}
             <div class="flex flex-col w-full gap-1">
                 <x-input-label for="nome_servico">Nome do Serviço</x-input-label>
                 <x-text-input type="text" name="nome" id="nome" placeholder="Nome do Serviço" required/>
             </div>
-            {{-- Duração --}}
             <div class="flex flex-col w-full gap-1">
                 <x-input-label for="duracao">Duração (minutos)</x-input-label>
                 <x-text-input type="number" name="duracao" id="duracao" placeholder="Duração em minutos" required/>
             </div>
-            {{-- Preço --}}
             <div class="flex flex-col w-full gap-1">
                 <x-input-label for="preco">Preço</x-input-label>
                 <x-text-input type="number" name="preco" id="preco" placeholder="Preço do Serviço" required/>
             </div>
-            {{-- Cor --}}
             <div class="flex flex-col w-full gap-1">
                 <x-input-label for="cor">Cor</x-input-label>
                 <input type="color" name="cor" id="cor"/>
             </div>
-            {{-- Footer --}}
             <div class="flex gap-4 pt-4 border-t">
                 <x-secondary-button onclick="fechar_janela_novo_servico()">Fechar</x-secondary-button>
                 <x-primary-button>Criar Serviço</x-primary-button>
@@ -109,7 +102,7 @@
     }
 
     function abrir_janela_editar_servico(event, id) {
-        event.stopPropagation(); // Evita que o evento de clique propague para os elementos pai
+        event.stopPropagation();
         mostrar_janela_editar_servico(id);
     }
 

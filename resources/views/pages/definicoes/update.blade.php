@@ -11,24 +11,20 @@
             <div class="flex flex-col gap-4">
                 <div class="flex flex-col w-full gap-1">
                     <x-input-label for="nome">Nome</x-input-label>
-                    {{-- Pegas através da base de ddos  --}}
                     <x-text-input type="text" id="nome" name="nome" value="{{ $configuracoes->nome ?? '' }}"/>
                 </div>
                 <div class="flex flex-col gap-4 md:flex-row">
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="telefone">Telemovel</x-input-label>
-                        {{-- Pegas através da base de ddos  --}}
                         <x-text-input type="text" id="telefone" name="telefone" value="{{ $configuracoes->telefone ?? '' }}"/>
                     </div>
                     <div class="flex flex-col w-full gap-1">
                         <x-input-label for="telemovel">Telemovel</x-input-label>
-                        {{-- Pegas através da base de ddos  --}}
                         <x-text-input type="text" id="telemovel" name="telemovel" value="{{ $configuracoes->telemovel ?? '' }}"/>
                     </div>
                 </div>
                 <div class="flex flex-col w-full gap-1">
                     <x-input-label for="morada">Morada</x-input-label>
-                    {{-- Pegas através da base de ddos  --}}
                     <x-text-input type="text" id="morada" name="morada" value="{{ $configuracoes->morada ?? '' }}"/>
                 </div>
             </div>

@@ -62,10 +62,10 @@ return new class extends Migration
             $table->unsignedTinyInteger('estado')->nullable();
             $table->unsignedBigInteger('cliente_id')->nullable();
             $table->foreign('cliente_id')->references('id')->on('cliente')->nullable();
-            $table->unsignedBigInteger('colaborador_id')->nullable(); //adicionadas para teste
-            $table->foreign('colaborador_id')->references('id')->on('colaborador')->nullable(); //adicionadas para teste
-            $table->unsignedBigInteger('tipo_servico_id'); //adicionadas para teste
-            $table->foreign('tipo_servico_id')->references('id')->on('tipo_servico'); //adicionadas para teste
+            $table->unsignedBigInteger('colaborador_id')->nullable();
+            $table->foreign('colaborador_id')->references('id')->on('colaborador')->nullable();
+            $table->unsignedBigInteger('tipo_servico_id');
+            $table->foreign('tipo_servico_id')->references('id')->on('tipo_servico');
             $table->text('obs')->nullable();
             $table->timestamps();
         });

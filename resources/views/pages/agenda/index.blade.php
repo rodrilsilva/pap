@@ -8,7 +8,6 @@
         <x-primary-button id="nova_marcacao" class="absolute w-full md:w-min left-80" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
         <div id="calendar" class="w-full h-[632px]"></div>
     </div>
-    <!-- adicionaer os cripts para o FullCalendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script>
@@ -74,8 +73,8 @@
                     var newStartDate = info.event.start;
                     var newEndDate = info.event.end || newStartDate;
                     
-                    var newStartDateUTC = newStartDate.toISOString(); // Incluindo a hora completa
-                    var newEndDateUTC = newEndDate.toISOString(); // Incluindo a hora completa
+                    var newStartDateUTC = newStartDate.toISOString();
+                    var newEndDateUTC = newEndDate.toISOString();
 
                     $.ajax({
                         method: 'PUT',

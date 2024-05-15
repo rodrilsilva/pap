@@ -50,47 +50,51 @@ class MarcacaoController extends Controller
     }
 
     public function horariosDisponiveis(Request $request)
-{
-    $dataSelecionada = $request->input('data');
-    $servicoSelecionado = $request->input('servico');
+    {
+        $dataSelecionada = $request->input('data');
+        $servicoSelecionado = $request->input('servico');
 
-    // Obtém todas as marcações agendadas para o dia selecionado
-    $marcacoes = Marcacao::whereDate('data_hora', $dataSelecionada)
-                        ->get();
+        $marcacoes = Marcacao::whereDate('data_hora', $dataSelecionada)
+                            ->get();
 
-    // Calcula os horários ocupados considerando a duração de cada serviço
-    $horariosOcupados = [];
-    foreach ($marcacoes as $marcacao) {
-        $duracao = Servico::find($marcacao->tipo_servico_id)->duracao;
-        $horarioInicio = Carbon::parse($marcacao->data_hora);
-        $horarioFim = $horarioInicio->copy()->addMinutes($duracao);
+        $horariosOcupados = [];
+        foreach ($marcacoes as $marcacao) {
+            $duracao = Servico::find($marcacao->tipo_servico_id)->duracao;
+            $horarioInicio = Carbon::parse($marcacao->data_hora);
+            $horarioFim = $horarioInicio->copy()->addMinutes($duracao);
 
-        // Adiciona o intervalo ocupado na lista de horários ocupados
-        $horariosOcupados[] = [$horarioInicio, $horarioFim];
-    }
+            $horariosOcupados[] = [$horarioInicio, $horarioFim];
+        }
 
-    // Calcula os horários disponíveis com base nos horários ocupados
-    $horarioInicioDia = Carbon::parse($dataSelecionada)->setHour(8)->setMinute(30);
-    $horarioFimDia = Carbon::parse($dataSelecionada)->setHour(18)->setMinute(30);
-    $intervalo = new DateInterval('PT30M'); // Intervalo de 30 minutos
-    $periodo = new DatePeriod($horarioInicioDia, $intervalo, $horarioFimDia);
-    $horariosDisponiveis = [];
+        $duracaoNovoServico = Servico::find($servicoSelecionado)->duracao;
 
-    foreach ($periodo as $hora) {
-        $disponivel = true;
-        foreach ($horariosOcupados as $ocupado) {
-            // Verifica se a hora atual está dentro de um intervalo ocupado
-            if ($hora >= $ocupado[0] && $hora < $ocupado[1]) {
-                $disponivel = false;
-                break;
+        $horarioInicioDia = Carbon::parse($dataSelecionada)->setHour(8)->setMinute(30);
+        $horarioFimDia = Carbon::parse($dataSelecionada)->setHour(18)->setMinute(30);
+        $intervalo = new DateInterval('PT30M');
+        $periodo = new DatePeriod($horarioInicioDia, $intervalo, $horarioFimDia);
+        $horariosDisponiveis = [];
+
+        foreach ($periodo as $hora) {
+            $disponivel = true;
+            foreach ($horariosOcupados as $index => $ocupado) {
+                if ($hora >= $ocupado[0] && $hora < $ocupado[1]) {
+                    $disponivel = false;
+                    break;
+                }
+
+                if (isset($horariosOcupados[$index + 1])) {
+                    $proximoInicio = $horariosOcupados[$index + 1][0];
+                    if ($proximoInicio->diffInMinutes($hora) < $duracaoNovoServico) {
+                        $disponivel = false;
+                        break;
+                    }
+                }
+            }
+            if ($disponivel) {
+                $horariosDisponiveis[] = $hora->format('H:i');
             }
         }
-        if ($disponivel) {
-            $horariosDisponiveis[] = $hora->format('H:i');
-        }
+
+        return response()->json($horariosDisponiveis);
     }
-
-    return response()->json($horariosDisponiveis);
-}
-
 }

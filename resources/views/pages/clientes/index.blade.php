@@ -184,7 +184,6 @@
 </script>
 
 <script>
-// Seletor para os ícones de lápis
 const iconesEditarCliente = document.querySelectorAll('.editar-cliente');
 
 
@@ -194,8 +193,6 @@ function showEditModal(id) {
 
     
 }
-
-// Adiciona um evento de clique a cada ícone de lápis
 
 </script>
 
