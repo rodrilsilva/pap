@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="m-auto max-w-7xl">
-        <x-primary-button id="nova_marcacao" class="absolute w-full md:w-min left-80" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
+        <x-primary-button id="nova_marcacao" class="md:absolute m-2 md:m-0 w-full md:w-min left-[28%]" onclick="mostrar_janela()">Nova Marcação</x-primary-button>
         <div id="calendar" class="w-full h-[632px]"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

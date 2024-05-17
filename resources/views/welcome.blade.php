@@ -1,3 +1,9 @@
+@if(session('success'))
+    <div class="p-4 mb-4 text-white bg-green-600 rounded-md">
+        <p>{{ session('success') }}</p>
+    </div>
+@endif
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -41,7 +47,7 @@
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
                             <label for="tlm">Telemóvel <span class="text-red-500">*</span></label>
-                            <input id="tlm" name="tlm" type="tlm" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
+                            <input id="tlm" name="tlm" type="text" required class="block w-full px-4 py-2 border rounded-md focus:outline-none focus:border-violet-500" />
                         </div>
                         <div class="flex flex-col gap-0.5 font-medium">
                             <label for="email">Email <span class="text-red-500">*</span></label>
@@ -68,75 +74,63 @@
                         </select>
                     </div>
                 </div>
-                <button type="button" id="btnHorariosDisponiveis" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white" style="display: none;">Ver Horários Disponíveis</button>
                 <button type="submit" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white">Submeter</button>
             </form>
         </section>
     </main>
     <div class="relative">
         <svg xmlns="http://www.w3.org/2000/svg" width="650" height="650" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="absolute select-none -z-10 lucide lucide-scissors bottom-1 left-4 stroke-[#efefef]">
-                <circle cx="6" cy="6" r="3"/>
-                <path d="M8.12 8.12 12 12"/>
-                <path d="M20 4 8.12 15.88"/>
-                <circle cx="6" cy="18" r="3"/>
-                <path d="M14.8 14.8 20 20"/>
-            </svg>
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="absolute select-none -z-10 lucide lucide-scissors bottom-1 left-4 stroke-[#efefef]">
+            <circle cx="6" cy="6" r="3"/>
+            <path d="M8.12 8.12 12 12"/>
+            <path d="M20 4 8.12 15.88"/>
+            <circle cx="6" cy="18" r="3"/>
+            <path d="M14.8 14.8 20 20"/>
+        </svg>
     </div>
     <script>
         document.getElementById('data').addEventListener('change', function() {
-            verificarCamposPreenchidos();
+            carregarHorariosDisponiveis();
         });
-    
+
         document.getElementById('servico').addEventListener('change', function() {
-            verificarCamposPreenchidos();
+            carregarHorariosDisponiveis();
         });
-    
-        function verificarCamposPreenchidos() {
+
+        function carregarHorariosDisponiveis() {
             let dataSelecionada = document.getElementById('data').value;
             let servicoSelecionado = document.getElementById('servico').value;
-    
+
             if (dataSelecionada && servicoSelecionado) {
-                document.getElementById('btnHorariosDisponiveis').style.display = 'block';
-            } else {
-                document.getElementById('btnHorariosDisponiveis').style.display = 'none';
+                fetch(`/horarios-disponiveis?data=${dataSelecionada}&servico=${servicoSelecionado}`)
+                .then(response => response.json())
+                .then(data => {
+                    let horariosDisponiveisSelect = document.getElementById('horarioSelecionado');
+                    horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha uma hora</option>';
+
+                    if (data.length > 0) {
+                        data.forEach(function(horario) {
+                            let option = document.createElement('option');
+                            option.text = horario;
+                            option.value = horario;
+                            horariosDisponiveisSelect.appendChild(option);
+                        });
+                    } else {
+                        let mensagem = document.createElement('option');
+                        mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
+                        horariosDisponiveisSelect.appendChild(mensagem);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Erro ao buscar horários disponíveis:', error);
+                });
             }
         }
-    
-        document.getElementById('btnHorariosDisponiveis').addEventListener('click', function() {
-            let dataSelecionada = document.getElementById('data').value;
-            let servicoSelecionado = document.getElementById('servico').value;
-    
-            // Fazendo a solicitação GET diretamente para a rota do Laravel
-            fetch(`/horarios-disponiveis?data=${dataSelecionada}&servico=${servicoSelecionado}`)
-            .then(response => response.json())
-            .then(data => {
-                let horariosDisponiveisSelect = document.getElementById('horarioSelecionado');
-                horariosDisponiveisSelect.innerHTML = '<option value="" disabled selected>Escolha uma hora</option>';
-    
-                if (data.length > 0) {
-                    data.forEach(function(horario) {
-                        let option = document.createElement('option');
-                        option.text = horario;
-                        option.value = horario;
-                        horariosDisponiveisSelect.appendChild(option);
-                    });
-                } else {
-                    let mensagem = document.createElement('option');
-                    mensagem.text = 'Não há horários disponíveis para este dia ou serviço.';
-                    horariosDisponiveisSelect.appendChild(mensagem);
-                }
-            })
-            .catch(function (error) {
-                console.error('Erro ao buscar horários disponíveis:', error);
-            });
-        });
-    
+
         document.getElementById('horarioSelecionado').addEventListener('change', function() {
             document.getElementById('horaSelecionada').value = this.value;
         });
     </script>
-    
 </body>
 </html>

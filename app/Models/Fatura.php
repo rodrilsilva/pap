@@ -9,10 +9,7 @@ class fatura extends Model
 {
     use HasFactory;
 
-    //indicar nome da tabela
     protected $table = 'fatura';
 
-
-    //indicar as colunas que podem ser registadas
     protected $fillable = ['preco_final'];
 }

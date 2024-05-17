@@ -24,12 +24,5 @@ class UsersSider extends Seeder
             "password" => $password,
             "admin" => "1",
         ]);
-
-        DB::table('users')->insert([
-            "name" => "Cliente user",
-            "email" => "cliente@gmail.com",
-            "password" => $password,
-            "admin" => "0",
-        ]);
     }
 }

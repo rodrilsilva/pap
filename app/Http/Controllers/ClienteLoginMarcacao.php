@@ -31,13 +31,21 @@ class ClienteLoginMarcacao extends Controller
             $clienteId = Cliente::where('users_id', $userId)->value('id');
 
             if ($clienteId) {
+                // Verificar se o horário selecionado está disponível
+                $horarioSelecionado = Carbon::createFromFormat('Y-m-d H:i', $request->data . ' ' . $request->hora);
+                $horarioOcupado = Marcacao::where('data_hora', $horarioSelecionado)->exists();
+
+                if ($horarioOcupado) {
+                    return redirect()->back()->with('error', 'Este horário já está ocupado. Por favor, escolha outro horário.');
+                }
+
                 $novaMarcacao = new Marcacao();
                 $novaMarcacao->tipo_servico_id = $request->servico;
-                $novaMarcacao->data_hora = Carbon::createFromFormat('Y-m-d H:i', $request->data . ' ' . $request->hora);
+                $novaMarcacao->data_hora = $horarioSelecionado;
                 $novaMarcacao->cliente_id = $clienteId;
                 $novaMarcacao->save();
 
-                return redirect()->route('pagina_de_confirmacao')->with('success', 'Marcação criada com sucesso!');
+                return redirect()->route('marcacoes.cliente')->with('success', 'Marcação criada com sucesso!');
             } else {
                 return redirect()->back()->with('error', 'Cliente não encontrado para este usuário.');
             }
@@ -46,4 +54,3 @@ class ClienteLoginMarcacao extends Controller
         }
     }
 }
-

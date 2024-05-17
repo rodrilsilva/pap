@@ -5,9 +5,9 @@
                 <h4 class="text-2xl text-neutral-900">Realizar Marcação</h4>
                 <p class="text-neutral-500">Deseja realizar uma marcação? Vamos a isso!</p>
             </div>
-                <form id="form-marcacao" class="space-y-2" method="POST" action="{{ route('cliente.create')}}">
-                    @csrf
-                    <div class="flex flex-col gap-4 lg:flex-row">
+            <form id="form-marcacao" class="space-y-2" method="POST" action="{{ route('cliente.create')}}">
+                @csrf
+                <div class="flex flex-col gap-4 lg:flex-row">
                     <div class="p-4 space-y-4 bg-white border rounded-2xl lg:w-96">
                         <div class="flex flex-col gap-0.5 font-medium">
                             <x-input-label for="servico">Serviço</x-input-label>

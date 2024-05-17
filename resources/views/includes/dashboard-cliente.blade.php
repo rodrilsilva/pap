@@ -1,3 +1,9 @@
+@if(session('success'))
+    <div class="p-4 mb-4 text-white bg-green-600 rounded-md">
+        <p>{{ session('success') }}</p>
+    </div>
+@endif
+
 <div class="overflow-hidden border rounded-lg">
     <table class="w-full h-full">
         <tr class="mb-2 border-b first:rounded-l-xl last:rounded-r-xl">
@@ -16,7 +22,7 @@
                 @endif
             </td>
             <td class="px-3 py-2 text-sm font-medium text-neutral-900">{{ $marcacao->tipoServico->nome }}</td>
-            <td class="px-3 py-2 text-sm font-medium text-neutral-900">{{ $marcacao->data_hora}}</td>
+            <td class="px-3 py-2 text-sm font-medium text-neutral-900">{{ $marcacao->data_hora }}</td>
             <td class="px-3 py-2 text-sm font-medium text-neutral-900">
                 @if($marcacao->data_hora < now())
                     <x-pill class="text-white bg-green-600">Realizada</x-pill>

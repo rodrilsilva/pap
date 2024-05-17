@@ -37,12 +37,12 @@ class MarcacaoController extends Controller
                 ]
             );
 
-            $marcação = new Marcacao([
+            $marcacao = new Marcacao([
                 'data_hora' => Carbon::createFromFormat('Y-m-d H:i', $request->input('data') . ' ' . $request->input('hora')),
                 'tipo_servico_id' => $request->input('servico'),
             ]);
 
-            $cliente->marcacoes()->save($marcação);
+            $cliente->marcacoes()->save($marcacao);
             return redirect()->back()->with('success', 'Marcação criada com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erro ao criar marcação: ' . $e->getMessage());
@@ -54,8 +54,7 @@ class MarcacaoController extends Controller
         $dataSelecionada = $request->input('data');
         $servicoSelecionado = $request->input('servico');
 
-        $marcacoes = Marcacao::whereDate('data_hora', $dataSelecionada)
-                            ->get();
+        $marcacoes = Marcacao::whereDate('data_hora', $dataSelecionada)->get();
 
         $horariosOcupados = [];
         foreach ($marcacoes as $marcacao) {
