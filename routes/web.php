@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ClienteLoginMarcacao;
+use App\Http\Controllers\ClienteLoginMarcacaoController;
 use App\Http\Controllers\DashboardClienteController;
 use App\Http\Controllers\DefinicoesController;
 use App\Http\Controllers\EquipaController;
@@ -113,9 +114,9 @@ Route::post('/criar-marcacao-wl', [MarcacaoController::class, 'store'])->name('m
 
 /******************** Rotas Views formulário de marcação com login ********************/
 Route::middleware('auth')->group(function () {
-    Route::get('/criar-marcacao', [ClienteLoginMarcacao::class, 'create'])->name('cliente.index');
-    Route::post('/criar-marcacao/create', [ClienteLoginMarcacao::class, 'store'])->name('cliente.create');
-    Route::get('/obter-cliente-id', [ClienteLoginMarcacao::class, 'suaFuncao'])->name('cliente.obter-cliente-id');
+    Route::get('/criar-marcacao', [ClienteLoginMarcacaoController::class, 'create'])->name('cliente.index');
+    Route::post('/criar-marcacao/create', [ClienteLoginMarcacaoController::class, 'store'])->name('cliente.create');
+    //Route::get('/obter-cliente-id', [ClienteLoginMarcacao::class, 'suaFuncao'])->name('cliente.obter-cliente-id');
 });
 
 require __DIR__.'/auth.php';

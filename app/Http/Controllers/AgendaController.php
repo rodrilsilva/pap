@@ -25,7 +25,7 @@ class AgendaController extends Controller
                             ->get()
                             ->map(function ($evento) {
                                 $titulo = $evento->cliente->nome . ' - ' . $evento->tipoServico->nome;
-                                $dataHora = Carbon::parse($evento->data_hora)->toDateTimeString(); // para formatar a data e hora
+                                $dataHora = Carbon::parse($evento->data_hora)->toDateTimeString();
                                 $duracao = $evento->tipoServico->duracao; 
                                 $cor = $evento->tipoServico->cor;
     

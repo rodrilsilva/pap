@@ -28,7 +28,7 @@
             },
             initialView: 'timeGridWeek',
             timeZone: 'GMT+1',
-            events: '/events',  // Ajuste a URL para retornar eventos semanais
+            events: '/events',
             editable: false,
             slotDuration: '01:00:00',
             slotLabelInterval: '01:00:00',

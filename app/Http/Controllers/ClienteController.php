@@ -59,7 +59,6 @@ class ClienteController extends Controller
         $cliente = Cliente::create($request->all());
 
         return redirect()->back()->with('success', 'Cliente criado com sucesso');
-        //return redirect()->route('clientes.show')->with('success', 'Cliente criado com sucesso');
 
     }
 

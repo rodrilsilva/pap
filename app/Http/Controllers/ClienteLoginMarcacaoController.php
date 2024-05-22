@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ClienteLoginMarcacao extends Controller
+class ClienteLoginMarcacaoController extends Controller
 {
     public function create()
     {
@@ -31,7 +31,6 @@ class ClienteLoginMarcacao extends Controller
             $clienteId = Cliente::where('users_id', $userId)->value('id');
 
             if ($clienteId) {
-                // Verificar se o horário selecionado está disponível
                 $horarioSelecionado = Carbon::createFromFormat('Y-m-d H:i', $request->data . ' ' . $request->hora);
                 $horarioOcupado = Marcacao::where('data_hora', $horarioSelecionado)->exists();
 

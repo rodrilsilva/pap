@@ -167,9 +167,9 @@ const mostrar_janela = () => {
 
 
 <script>
-    const clientes = {!! json_encode($clientes) !!}; // Converte os clientes do PHP para JavaScript
+    const clientes = {!! json_encode($clientes) !!};
     const inputCliente = document.getElementById('cliente');
-    const clienteIdInput = document.getElementById('cliente_id'); // Adicionado para armazenar o ID do cliente
+    const clienteIdInput = document.getElementById('cliente_id');
     const listaClientes = document.createElement('ul');
     listaClientes.classList.add('hidden', 'absolute', 'z-60', 'w-auto', 'border', 'border-gray-300', 'bg-white', 'rounded-md', 'shadow-lg', 'overflow-y-auto', 'max-h-40', 'text-sm');
 
@@ -177,10 +177,8 @@ const mostrar_janela = () => {
         const termo = event.target.value.toLowerCase();
         const clientesFiltrados = clientes.filter(cliente => cliente.nome.toLowerCase().includes(termo));
 
-        // Limpar lista anterior
         listaClientes.innerHTML = '';
 
-        // Adicionar clientes filtrados à lista
         clientesFiltrados.forEach(cliente => {
             const item = document.createElement('li');
             item.textContent = cliente.nome;
@@ -188,14 +186,13 @@ const mostrar_janela = () => {
 
             item.addEventListener('click', () => {
                 inputCliente.value = cliente.nome;
-                clienteIdInput.value = cliente.id; // Armazena o ID do cliente
+                clienteIdInput.value = cliente.id;
                 listaClientes.classList.add('hidden');
             });
 
             listaClientes.appendChild(item);
         });
 
-        // Mostrar lista de clientes filtrados
         if (clientesFiltrados.length > 0) {
             listaClientes.classList.remove('hidden');
         } else {
@@ -203,6 +200,5 @@ const mostrar_janela = () => {
         }
     });
 
-    // Adicionar lista de clientes filtrados ao DOM
     inputCliente.parentNode.appendChild(listaClientes);
 </script>

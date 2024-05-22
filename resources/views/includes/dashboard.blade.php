@@ -33,7 +33,7 @@
     <div class="flex flex-col w-full col-span-2 row-span-2 gap-4 p-4 bg-white border border-gray-200 shadow-sm rounded-2xl">
         <div id="weeklyCalendar" class="w-full h-[300px] flex-shrink-0"></div>
     </div>
-    {{-- TBD --}}
+    {{-- Proximo Cliente --}}
     <div class="flex flex-col w-full col-span-1 row-span-2 gap-4 p-4 mb-4 bg-white border border-gray-200 shadow-sm rounded-2xl md:mb-6 lg:mb-0">
         <div class="flex items-center justify-center p-3 rounded-full bg-gradient-to-b from-purple-500 to-violet-600 w-min">
             <x-icons.cliente />
@@ -68,7 +68,6 @@
     <div class="flex flex-col w-full gap-1.5">
         <p class="text-zinc-500">Cliente</p>
         <div class="flex items-center gap-2">
-            <!-- Substituído pelo seu SVG de usuário -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 text-zinc-900">
                 <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
             </svg>

@@ -30,7 +30,6 @@
                         </div>
                     </div>
                     <div id="horarios-disponiveis" class="p-4 space-y-4 bg-white border rounded-2xl lg:w-[512px]">
-                        <!-- Aqui serão exibidos os horários disponíveis -->
                     </div>
                 </div>
                 <button type="submit" class="p-2.5 py-2 rounded-lg bg-violet-500 text-white">Submeter</button>
